@@ -1,48 +1,98 @@
+/*
+ *  HubSpot Lead Notifications for Slack
+ *      - -   SFairchild    - -
+ *         CS50e  Spring 2016
+ *
+ */
+
+require('dotenv').config();  // for reading .ENV VARIABLES
+
 var express = require('express');
 var ejs = require('ejs');
 var bodyParser = require('body-parser');
-//var request = require('request');
+var cookieParser = require('cookie-parser');
+var session = require('cookie-session');
+var uuid = require('node-uuid');  // GUID generator
 
-var client_id = "973a83bb-03e4-11e6-9653-93a39db85acf";
-var portalId = 471491;
 
-
-var getUrl = "https://app.hubspot.com/auth/authenticate?client_id="+ client_id +"&portalId="+portalId+"&redirect_uri=http://localhost:5000&scope=offline";
+//    - -    INIT    - -
 
 var app = express();
 
-// set port
+/*
+ *     - -   .ENV VARIABLES    - -
+ *
+ *   @param SESSION_ID session ID for verifying user session
+ *   @param CLIENT_ID client ID for HubSpot Oauth
+ */
+
+var SESSION_ID = process.env["SESSION_ID"] = uuid.v4();  // TO-DO update to .v1()
+var CLIENT_ID = process.env["CLIENT_ID"];
+var SCOPE = process.env["SCOPE"];
+
+
+/*
+ *	   - -   CONFIG   - - 
+ *
+ *  set port and static directories
+ *  set view engine to ejs - javascript templating engine
+ *  
+ */
+
 app.set('port', (process.env.PORT || 5000));
-
-
 app.use(express.static(__dirname + '/public'));
-// views is directory for all template files
 app.set('views', __dirname + '/views');
-// set templating engine as ejs
 app.set('view engine', 'ejs');
 
+/*
+ *    - -   MIDDLEWARE   - -
+ *
+ */
 
-// use body parser middleware for parsing http request bodies
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser({secret : SESSION_ID}));
+//app.use(session({secret: SESSION_ID}));
+//app.use(cookieSession());
 
-// 
+
+/*
+ *    - -   HubSpot OAath   - - 
+ *      @param Oauth {}
+ *      @param redirect_uri
+ *      @param client_id
+ *      @param scope
+ *      @param portalId
+ */
+
+var Oauth = {
+  redirect_uri: "",
+  client_id: CLIENT_ID,
+  scope: SCOPE,
+  portalId: null
+}
+
+
+
+//  TO-DO check if user has completed OAuth
+//  if not -> send to /login
+//  else -> index
+//  also need to check for cookies
+//  look into CSRF protection
+
 app.get('/', function(req, res){
-  res.render('pages/index');
+
+  console.log("Cookies: ", req.cookies);
+  res.render('pages/index', Oauth);
+
 })
 
 app.post('/', function(req, res){
-  // verify authorization
-  /*if(req.body.token !== token){
-    res.sendStatus(401);
-    exit(1);
-  } */
- 
- console.log(req.body);
+
 })
 
 app.listen(app.get('port'), function() {
-  console.log('Node app is running on port', app.get('port'));
+  console.log('app is running on port', app.get('port'));
 });
 
 

@@ -1,9 +1,11 @@
 <%- include('../partials/header') -%>
 <h1>
-  Title
+  Authorize
 </h1>
 <form action="https://app.hubspot.com/auth/authenticate" method="GET">
 	<input name="portalId" placeholder="Portal Id">
+  <input name="client_id" hidden>
+  <input name="redirect_uri" hidden>
   <button type="submit">Authorize</button>
 </form>
 
