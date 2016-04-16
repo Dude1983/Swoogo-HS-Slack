@@ -14,6 +14,8 @@ var app = express();
 // set port
 app.set('port', (process.env.PORT || 5000));
 
+
+app.use(express.static(__dirname + '/public'));
 // views is directory for all template files
 app.set('views', __dirname + '/views');
 // set templating engine as ejs
