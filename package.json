@@ -2,9 +2,9 @@
   "name": "hs-slack-leadnotify",
   "version": "1.0.0",
   "description": "get lead notifications from HubSpot direct to Slack",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "test": "node app.js"
+    "test": "node index.js"
   },
   "repository": {
     "type": "git",
