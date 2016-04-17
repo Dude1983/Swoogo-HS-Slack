@@ -36,11 +36,15 @@ cookie-parser - https://www.npmjs.com/package/cookie-parser
 
 express-session - https://github.com/expressjs/session
 
+connect-mongo - https://www.npmjs.com/package/connect-mongo (session logger)
+
 csurf - https://www.npmjs.com/package/csurf
 
 uuid - https://github.com/broofa/node-uuid
 
 dot-env - https://www.npmjs.com/package/dotenv
+
+passport-local-mongoose - https://github.com/saintedlama/passport-local-mongoose
 
 ###CSS framework
 
@@ -56,7 +60,14 @@ MongoDb
 Oauth
 ejs
 
+Login -
+
+https://github.com/saintedlama/passport-local-mongoose
+
+http://mherman.org/blog/2013/11/11/user-authentication-with-passport-dot-js/#.VxO_ixMrJE4
+
 Session info -
+ - https://glebbahmutov.com/blog/express-sessions/
  - http://blog.modulus.io/nodejs-and-express-sessions
  - https://www.codementor.io/nodejs/tutorial/cookie-management-in-express-js
  - http://scottksmith.com/blog/2014/09/04/simple-steps-to-secure-your-express-node-application/
@@ -71,3 +82,14 @@ Session info -
  http://theholmesoffice.com/mongoose-connection-best-practice/
 
  http://cwbuecheler.com/web/tutorials/2013/node-express-mongo/
+
+
+
+ PROMISES
+
+ http://www.html5rocks.com/en/tutorials/es6/promises/
+
+
+ CREATING CUSTOM EVENTS
+
+ http://www.sitepoint.com/javascript-custom-events/

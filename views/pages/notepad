@@ -1,0 +1,17 @@
+<!--
+
+<% - include('../partials/header') -%>
+<h1>
+  Authorize
+</h1>
+<form action="https://app.hubspot.com/auth/authenticate" method="GET">
+  <input name="portalId" placeholder="Portal Id">
+  <input name="client_id" value=<%- Oauth.client_id %> hidden>
+  <input name="redirect_uri" value=<%- Oauth.redirect_uri %> hidden>
+  <input name="scope" value=<%- Oauth.scope %> hidden>
+  <button type="submit">Authorize</button>
+</form>
+
+<%- include('../partials/footer') -%>
+
+-->
