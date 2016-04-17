@@ -20,7 +20,7 @@ var router = express.Router();
 
 var CLIENT_ID = process.env["CLIENT_ID"];
 var SCOPE = process.env["SCOPE"];
-
+var REDIRECT_URI = process.env["REDIRECT_URI"]
 
 /*
  *      @param Oauth {} Object
@@ -31,7 +31,7 @@ var SCOPE = process.env["SCOPE"];
  */
 
 var Oauth = {
-  redirect_uri: "http://localhost:5000/success",
+  redirect_uri: REDIRECT_URI,
   client_id: CLIENT_ID,
   scope: SCOPE,
   portalId: null
