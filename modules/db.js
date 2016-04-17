@@ -20,6 +20,8 @@ function DB (){
 
 function Database(){
 
+
+
   this.URI = "mongodb://" + USR + ":" + KEY + TABLE;
   return this;
 }
@@ -76,7 +78,7 @@ Database.prototype.entry = function (data){
   var SESSION = mongoose.model('SESSION', SESSION_SCHEMA);
 
   var session = new SESSION({
-    cookie: ,
+    cookie: "bllooop" ,
     hs_access : {
       api_key : "bllooop",
       refresh_token : "bllooop"
