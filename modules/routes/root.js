@@ -1,6 +1,7 @@
 var express = require('express');
 var ejs = require('ejs');
-
+var DB = require('../db/db');
+var DB = DB();
 
 var router = express.Router();
 
@@ -29,15 +30,12 @@ var SCOPE = process.env["SCOPE"];
 //  look into CSRF protection
 
 router.use(function(req, res, next){
-
 	next();
 })
 
 router.get('/', function(req, res){
-
+  console.log(req.cookies);
   res.render('pages/index', {title : "LeadNotify"});
-
-
 })
 
 

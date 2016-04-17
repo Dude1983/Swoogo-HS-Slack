@@ -16,12 +16,9 @@ var csrf = require('csurf');
 var uuid = require('node-uuid');  // GUID generator
 var env = require('dotenv').config();  // for reading ENV VARIABLES
 
-var DB = require('./modules/db');
-
 //    - -    INIT    - -    //
 
 var app = express();
-var DB = DB();
 
 //    - -     ENV VARIABLES     - -   //
 
@@ -59,8 +56,11 @@ var login = require('./modules/routes/login');
 app.use('/', root);
 app.use('/login', login);
 
-DB.init();
-DB.entry();
+
+var DB = require('./modules/db/db');
+var DB = DB();
+DB.insert(null);
+
 
 //    - -   LISTEN    - -     //
 
