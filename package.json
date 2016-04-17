@@ -15,10 +15,12 @@
   "dependencies": {
     "body-parser": "^1.15.0",
     "cookie-parser": "^1.4.1",
-    "cookie-session": "^2.0.0-alpha.1",
+    "csurf": "^1.8.3",
     "dotenv": "^2.0.0",
     "ejs": "^2.4.1",
     "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "mongoose": "^4.4.12",
     "node-uuid": "^1.4.7"
   }
 }

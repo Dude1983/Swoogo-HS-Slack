@@ -5,95 +5,67 @@
  *
  */
 
-require('dotenv').config();  // for reading .ENV VARIABLES
+
+//    - - REQUIRED MODULES  - -     //
 
 var express = require('express');
-var ejs = require('ejs');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
-var session = require('cookie-session');
+var session = require('express-session');
+var csrf = require('csurf');
 var uuid = require('node-uuid');  // GUID generator
+var env = require('dotenv').config();  // for reading ENV VARIABLES
 
+var DB = require('./modules/db');
 
-//    - -    INIT    - -
+//    - -    INIT    - -    //
 
 var app = express();
+var DB = DB();
 
-/*
- *     - -   .ENV VARIABLES    - -
- *
- *   @param SESSION_ID session ID for verifying user session
- *   @param CLIENT_ID client ID for HubSpot Oauth
- */
+//    - -     ENV VARIABLES     - -   //
 
 var SESSION_ID = process.env["SESSION_ID"] = uuid.v4();  // TO-DO update to .v1()
-var CLIENT_ID = process.env["CLIENT_ID"];
-var SCOPE = process.env["SCOPE"];
+
 
 
 /*
- *	   - -   CONFIG   - - 
+ *  //	  - -   CONFIG   - -     //
  *
  *  set port and static directories
  *  set view engine to ejs - javascript templating engine
  *  
  */
 
+
 app.set('port', (process.env.PORT || 5000));
 app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
-/*
- *    - -   MIDDLEWARE   - -
- *
- */
+
+
+//    - -   MIDDLEWARE   - -    //
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser({secret : SESSION_ID}));
-//app.use(session({secret: SESSION_ID}));
-//app.use(cookieSession());
+
+//    - -   ROUTING     - -     //
+
+var root = require('./modules/routes/root');
+var login = require('./modules/routes/login');
+
+app.use('/', root);
+app.use('/login', login);
+
+DB.init();
 
 
-/*
- *    - -   HubSpot OAath   - - 
- *      @param Oauth {}
- *      @param redirect_uri
- *      @param client_id
- *      @param scope
- *      @param portalId
- */
-
-var Oauth = {
-  redirect_uri: "",
-  client_id: CLIENT_ID,
-  scope: SCOPE,
-  portalId: null
-}
-
-
-
-//  TO-DO check if user has completed OAuth
-//  if not -> send to /login
-//  else -> index
-//  also need to check for cookies
-//  look into CSRF protection
-
-app.get('/', function(req, res){
-
-  console.log("Cookies: ", req.cookies);
-  res.render('pages/index', Oauth);
-
-})
-
-app.post('/', function(req, res){
-
-})
+//    - -   LISTEN    - -     //
 
 app.listen(app.get('port'), function() {
   console.log('app is running on port', app.get('port'));
 });
-
 
 
