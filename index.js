@@ -60,7 +60,7 @@ app.use('/', root);
 app.use('/login', login);
 
 DB.init();
-
+DB.entry();
 
 //    - -   LISTEN    - -     //
 
