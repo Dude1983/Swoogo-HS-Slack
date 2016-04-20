@@ -10,9 +10,8 @@ router.use(function(req, res, next){
 });
 
 router.get('/', function(req, res){
-  console.log(req.session);
   req.logout();
-	res.render('pages/logout', {	title : "Logout" });
+	res.render('pages/logout', {	title : "Logout | LeadNotify" });
 });
 
 module.exports = router;

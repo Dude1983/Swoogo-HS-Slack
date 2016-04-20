@@ -9,6 +9,7 @@
 //    - - 	REQUIRED MODULES  	- -     //
 
 var express = require('express');
+var helmet = require('helmet');  // some security protection
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
@@ -22,26 +23,29 @@ var LocalStrategy = require('passport-local').Strategy;
 
 //		- - 	APP MODULES 	- - 	//
 
-var Database = require('./database/db');
+/*
+ *  @param Database {} mongoDb connection
+ *  @param User {} mongoDb schema for User creds
+ */
+
+var Database = require('./database/db')();
 var User = require('./database/models/user');
 
 
 //    - -    INIT    - -    //
 
 var app = express();
-var Database = Database();
 Database.init();
 
 //    - -     ENV VARIABLES     - -   //
 
+/*
+ *  @param SESSION_ID String
+ *  @param dbURI String
+ */
+
 var SESSION_ID = process.env["SESSION_ID"] = uuid.v4();  // TO-DO update to .v1()
-var TABLE = process.env["DB"];
-var USR = process.env["DB_USR"];
-var KEY = process.env["DB_PASS"];
-
-//    - -     PRIVATE VARIABLES   - -   //
-
-var dbURI = "mongodb://" + USR + ":" + KEY + TABLE;
+var dbURI = process.env["dbURI"];
 
 
 /*
@@ -62,11 +66,15 @@ app.set('view engine', 'ejs');
 
 //    - -   MIDDLEWARE   - -    //
 
-app.use(bodyParser.json());  // parses request body
+
+// parses request body
+app.use(helmet());
+app.use(bodyParser.json());  
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(session({		// session logger -> store in MongoDB
-  name: 'server-session-cookie-id',
+// session logger -> store in MongoDB
+app.use(session({		
+  name: 'hsSlk_ln',
   secret: SESSION_ID,
   saveUninitialized: true,
   resave: false,
@@ -78,14 +86,28 @@ app.use(session({		// session logger -> store in MongoDB
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(function printSession(req, res, next) {  // -> logs session updates to console
+
+//    - -   ERROR HANDLING    - -     //
+
+app.use(function(err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+
+//    - -   SESSION -> CONSOLE    - -     //
+/*
+app.use(function printSession(req, res, next) {
   console.log('req.session', req.session);
   return next();
 });
+*/
+//    - -     HTTP HEADERS    - -   //
 
+app.disable('x-powered-by');  // hide Express to mitigate targeted attacks
+
+//   - -    INITIALIZE PASSPORT   - -   //
 
 passport.use(User.createStrategy());
-
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
@@ -96,11 +118,13 @@ var root = require('./routes/root');
 var login = require('./routes/login');
 var register = require('./routes/register');
 var logout = require('./routes/logout');
+var account = require('./routes/account');
 
 app.use('/', root);
 app.use('/login', login);
 app.use('/register', register);
 app.use('/logout', logout);
+app.use('/account', account);
 
 
 //    - -   LISTEN    - -     //

@@ -1,0 +1,28 @@
+<%- include('../partials/header') -%>
+
+
+<%- include('../partials/nav') -%>
+
+
+<div class="row">
+	<div class="form-wrapper">
+		<% if(!Oauth) { %>
+			<h4 class="form-title">HubSpot is Connected!</h4>
+			<form action="/account" method="POST">
+				<input name="disconnect" value="true" hidden>
+				<button type="submit">Disconnect</button>
+			</form>
+		<% } else { %>
+			<h4 class="form-title">Authorize HubSpot</h4>
+			<form action="https://app.hubspot.com/auth/authenticate" method="GET">
+			  <input type='text' name="portalId" placeholder="Portal Id">
+			  <input name="client_id" value=<%- Oauth.client_id %> hidden>
+			  <input name="redirect_uri" value=<%- Oauth.redirect_uri %> hidden>
+			  <input name="scope" value=<%- Oauth.scope %> hidden>
+			  <button type="submit" class="form-btn">Authorize</button>
+			</form>
+		<% } %>
+	</div>
+</div>
+<%- include('../partials/footer') -%>
+

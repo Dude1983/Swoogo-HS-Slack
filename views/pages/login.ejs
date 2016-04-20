@@ -1,11 +1,15 @@
 <%- include('../partials/header') -%>
 
+<%- include('../partials/login_nav') -%>
 
-<form role="form" action="/login" method="post">
-  <input type='text' name="username" placeholder='Enter Username'>
-  <input type='password' name="password" placeholder='Password'>
-  <button type="submit">Submit</button>
-</form>
-
+<div class="row">
+	<div class="form-wrapper">
+	<form role="form" action="/login" method="post">
+	  <input type='text' name="username" placeholder='Username'>
+	  <input type='password' name="password" placeholder='Password'>
+	  	<button class="form-btn" type="submit">Login</button>
+	</form>
+	</div>
+</div>
 <%- include('../partials/footer') -%>
 

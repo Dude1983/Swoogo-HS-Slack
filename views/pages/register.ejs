@@ -1,9 +1,16 @@
 <%- include('../partials/header') -%>
 
-<form role='form' action="/register" method="post">
-  <input type='text' name="username" placeholder='Enter Username'>
-  <input type='password' name="password" placeholder='Password'>
-  <button type="submit">Submit</button>
-</form>
+<%- include('../partials/login_nav') -%>
 
+<div class="row">
+	<div class="form-wrapper">
+	<form role="form" action="/register" method="post">
+	  <input type='text' name="username" placeholder='Username'>
+	  <input type='password' name="password" placeholder='Password'>
+	  <input type='password' name="confirm-password" placeholder='Confirm Password'>
+	  	<button class="form-btn" type="submit">Register</button>
+	</form>
+	</div>
+</div>
 <%- include('../partials/footer') -%>
+

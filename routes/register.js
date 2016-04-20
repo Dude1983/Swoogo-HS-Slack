@@ -5,26 +5,25 @@ var User = require('../database/models/user');
 
 var router = express.Router();
 
-
+// TO-DO: if user is logged in or username is known -> redirect to index or login
 
 router.use(function(req, res, next){
   next();
 });
 
 router.get('/', function(req, res){
-
-  console.log(req.session);
-
-  res.render('pages/register', {title : "Register"});
-
+  if(req.user){
+    res.redirect('/');
+  } else {
+    res.render('pages/register', {title : "Register | LeadNotify"});
+  }
+  
 });
 
 router.post('/', function(req, res) {
-  console.log(req.body);
   User.register(new User({username: req.body.username}), req.body.password, function(err, data) {
     if (err) {
-      console.log(data);
-      res.render('pages/register', { title: "Register"});
+      res.render('pages/register', { title: "Register | LeadNotify"});
     }
 
     passport.authenticate('local')(req, res, function () {

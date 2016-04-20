@@ -1,12 +1,15 @@
 <%- include('../partials/header') -%>
-<h1>
-  HS Lead Notify for Slack
-</h1>
+
+
+<%- include('../partials/nav') -%>
+
+
 	<% if(!user){ %>
 		<a href="/login">Login</a>
     <a href="/register">Register</a>
 	<% } else {  %>
-   <p> You're logged in as <%= user.username %> </p>
-   <% } %>
+  	<p> You're logged in as <%= user.username %> </p>
+ 	<% } %>
+
 
 <%- include('../partials/footer') -%>

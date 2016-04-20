@@ -6,7 +6,7 @@ var TABLE = process.env["DB"];
 var USR = process.env["DB_USR"];
 var KEY = process.env["DB_PASS"];
 
-var dbURI = "mongodb://" + USR + ":" + KEY + TABLE;
+var dbURI = process.env["dbURI"] = "mongodb://" + USR + ":" + KEY + TABLE;
 
 // Public
 
@@ -64,26 +64,14 @@ Database.prototype.init = function  (){
   }); 
 }
 
-Database.prototype.insert = function (data){
+Database.prototype.insert = function (Model, data){
 
-  var Database = this;
-  var connection = Database.connection;
+  var row = new Model(data);
 
-
-    var row = new SESSION({
-      cookie:  data.cookie,
-      hs_access : {
-        api_key : "098025-=asgdaklj",
-        refresh_token : "098025-=asgdaklj" 
-      }
-    });
-
-    row.save(function(err, row){
-      if(err) throw err;
-      console.log("logged new row: " + row);
-    }).then(function(doc){
-      console.log(doc);
-    });
+  row.save(function(err, row){
+    if(err) throw err;
+    console.log("logged new row:\n" + row);
+  });
 
 }
 
@@ -96,5 +84,5 @@ Database.prototype.close = function(){
 
   connection.close();
 
-
 }
+

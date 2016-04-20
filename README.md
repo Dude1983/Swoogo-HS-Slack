@@ -93,3 +93,13 @@ Session info -
  CREATING CUSTOM EVENTS
 
  http://www.sitepoint.com/javascript-custom-events/
+
+
+ SECURITY 
+
+ https://www.npmjs.com/package/helmet
+
+
+ JS Module Patterns
+
+ http://www.adequatelygood.com/JavaScript-Module-Pattern-In-Depth.html
