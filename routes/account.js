@@ -87,10 +87,9 @@ router.get('/', function(req, res){
       // if access token was returned in query params
     } else if (req.query.access_token){
       
-      console.log(req.query);
-      // insert access token
+      // store access token
       Database.insert(hsToken, {
-        user_id : req.user.id,
+        user_id : req.user.id,  // SESSION_ID
         hs_access : {
           access_token : req.query.access_token,
           refresh_token : req.query.refresh_token,
@@ -104,7 +103,7 @@ router.get('/', function(req, res){
 })
 
 router.post('/', function(req, res){
-  if(req.body.disconnect){
+  if(req.body.hubspotDisconnect){
     hsToken.remove({'user_id' : req.user.id}, function(err){
       if(err) throw err;
     }).then(res.render('pages/account', { title : "Account | LeadNotify", user : req.user , Oauth: Oauth}));

@@ -9,7 +9,7 @@
 		<% if(!Oauth) { %>
 			<h4 class="form-title">HubSpot is Connected!</h4>
 			<form action="/account" method="POST">
-				<input name="disconnect" value="true" hidden>
+				<input name="hubspotDisconnect" value="true" hidden>
 				<button type="submit">Disconnect</button>
 			</form>
 		<% } else { %>
