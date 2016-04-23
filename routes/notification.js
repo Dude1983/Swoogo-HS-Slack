@@ -41,6 +41,8 @@ router.get('/', function(req, res){
 router.post('/', function(req, res){
   console.log(req);
 
+  res.status(200);
+
 });
 
 module.exports = router;
