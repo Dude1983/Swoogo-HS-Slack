@@ -119,12 +119,14 @@ var login = require('./routes/login');
 var register = require('./routes/register');
 var logout = require('./routes/logout');
 var account = require('./routes/account');
+var notification = require('./routes/notification')
 
 app.use('/', root);
 app.use('/login', login);
 app.use('/register', register);
 app.use('/logout', logout);
 app.use('/account', account);
+app.use('/notification', notification);
 
 
 //    - -   LISTEN    - -     //

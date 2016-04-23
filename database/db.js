@@ -70,7 +70,7 @@ Database.prototype.insert = function (Model, data){
 
   row.save(function(err, row){
     if(err) throw err;
-    console.log("logged new row:\n" + row);
+    //console.log("\nDatabase.prototype.insert logged new row:\n" + row);
   });
 
 }

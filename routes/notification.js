@@ -28,18 +28,19 @@ var router = express.Router();
 
 router.use(function(req, res, next){
 	next();
-})
+});
 
 router.get('/', function(req, res){
 	if(!req.user){
     res.redirect('/login');
   } else {
-  	
-  	get_token(req.user.id, getContactProperties);
-  	res.render('pages/index', {	title : "HubSpot Lead Notifications for Slack | LeadNotify", user : req.user });
-  
-  }
-})
+		res.status(405).render('pages/error', {title : "405 | LeadNotify", user : req.user, header : "405 Method Not Allowed", message : "Sorry, but the specified HTTP Method is not allowed." });
+	}
+});
 
+router.post('/', function(req, res){
+  console.log(req);
+
+});
 
 module.exports = router;
