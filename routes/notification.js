@@ -39,7 +39,7 @@ router.get('/', function(req, res){
 });
 
 router.post('/', function(req, res){
-  console.log(req);
+  console.log(req.body);
 
   res.status(200);
 
