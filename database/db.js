@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 
+var OauthTokens = require('./models/OauthTokens');
+
 // Private
 
 var TABLE = process.env["DB"];
@@ -7,6 +9,9 @@ var USR = process.env["DB_USR"];
 var KEY = process.env["DB_PASS"];
 
 var dbURI = process.env["dbURI"] = "mongodb://" + USR + ":" + KEY + TABLE;
+
+
+
 
 // Public
 
@@ -64,18 +69,30 @@ Database.prototype.init = function  (){
   }); 
 }
 
+/*
 Database.prototype.insert = function (Model, data){
 
   var row = new Model(data);
 
   row.save(function(err, row){
     if(err) throw err;
-    //console.log("\nDatabase.prototype.insert logged new row:\n" + row);
   });
 
+} */
+
+Database.prototype.newOauthRow = function(id){
+  // if Oauth model not in DB create one
+    OauthTokens.update({ "user_id" : id }, 
+      { $set : {
+          user_id : id
+        }
+      }, { upsert : true },
+      function(err){
+        if(err){
+          console.log(err);
+        }
+      });
 }
-
-
 
 Database.prototype.close = function(){
   

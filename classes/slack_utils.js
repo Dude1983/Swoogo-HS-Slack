@@ -19,9 +19,11 @@ var OauthTokens = require('../database/models/OauthTokens');
 
 //    - -   EXPORTS     - -     //
 
+module.exports.Oauth = Oauth;
 module.exports.getToken = getToken;
 module.exports.insertToken = insertToken;
-module.exports.testConnection = testConnection;
+module.exports.authTest = authTest;
+module.exports.listChannels = listChannels;
 
 //    - -   ENV VARIABLES   - -     //
 
@@ -40,12 +42,12 @@ var slack_redirect_uri = process.env["SLACK_REDIRECT_URI"];
 //    - -     METHODS       - -   //
 
 
-function testConnection (token) {
+function authTest (token) {
 
 }
 
 
-function getToken (row, req, insertToken){
+function Oauth (row, req, insertToken){
 
 
 // TO-DO: ensure auth
@@ -60,7 +62,7 @@ function getToken (row, req, insertToken){
       code : req.code,
       redirect_uri : slack_redirect_uri
     })
-    
+
     var options = {
       method : "POST",
       headers : {
@@ -74,7 +76,7 @@ function getToken (row, req, insertToken){
       if(err) throw err;
       
       if(JSON.parse(d).ok){
-
+        console.log(d);
         insertToken(JSON.parse(d), row[0].user_id);
         
       }
@@ -89,6 +91,7 @@ function insertToken (d, id){
     { $set : {
         slack_access : {
           access_token : d.access_token,
+          scope : d.scope,
           user_id : d.user_id,
           team_name : d.team_name,
           team_id : d.team_id
@@ -100,4 +103,22 @@ function insertToken (d, id){
         console.log(err);
       } 
     });
+}
+
+function getToken (id, cb){
+  OauthTokens.where({"user_id" : id}).then(function(d){
+    cb(d[0].slack_access.access_token);
+  })
+}
+
+function listChannels (token) {
+  options = {
+    method : "POST",
+    headers : {
+      "Content-Type" : "application/json"
+    },
+    body : querystring.stringify({
+      token : token
+    })
+  }
 }

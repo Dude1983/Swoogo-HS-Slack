@@ -111,6 +111,8 @@ Session info -
     - token request - https://api.slack.com/methods/oauth.access
     - Scoping - https://api.slack.com/docs/oauth-scopes
     - test connection code - https://api.slack.com/methods/api.test
+    - test authToken - https://api.slack.com/methods/auth.test
   - Real Time Messaging API - https://api.slack.com/rtm
   - Bot user - https://api.slack.com/bot-users
   - Post message - https://api.slack.com/methods/chat.postMessage
+  - List channels - https://api.slack.com/methods/channels.list

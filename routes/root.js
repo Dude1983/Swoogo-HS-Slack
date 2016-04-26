@@ -23,11 +23,11 @@ var Database = require('../database/db');
 var User = require('../database/models/user');
 var OauthTokens = require('../database/models/OauthTokens');
 
+
 //    - -   REQUIRED METHODS  - -     //
 
-var get_token = require('../classes/hs_utils').get_token;
-var refresh = require('../classes/hs_utils').refresh;
-var getContactProperties = require('../classes/hs_utils').getContactProperties;
+var hsUtils = require('../classes/hs_utils');
+var slackUtils = require('../classes/slack_utils');
 
 
 
@@ -47,18 +47,10 @@ router.get('/', function(req, res){
     res.redirect('/login');
   } else {
   	
-  	// upsert SLACK Oauth params in DB
-    OauthTokens.update({ "user_id" : req.user.id }, 
-      { $set : {
-          user_id : req.user.id
-        }
-      }, { upsert : true },
-      function(err){
-        if(err){
-          console.log(err);
-        }
-      });
-  	//get_token(req.user.id, getContactProperties);
+    // if first login insert new Oauth row
+  	Database.newOauthRow(req.user.id);
+
+
   	res.render('pages/index', {	title : "HubSpot Lead Notifications for Slack | LeadNotify", user : req.user });
   
   }

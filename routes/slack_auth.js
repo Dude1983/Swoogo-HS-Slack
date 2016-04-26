@@ -28,7 +28,7 @@ var OauthTokens = require('../database/models/OauthTokens');
 
 //    - -   REQUIRED METHODS  - -     //
 
-var getToken = require('../classes/slack_utils').getToken;
+var Oauth = require('../classes/slack_utils').Oauth;
 var insertToken = require('../classes/slack_utils').insertToken;
 
 
@@ -91,7 +91,7 @@ router.get('/', function(req, res){
       // if state is passed as a param in GET request
       if(req.query.state){
         OauthTokens.where({ "user_id" : req.user.id }).then(function (d) {
-          getToken(d, req.query, insertToken);
+          Oauth(d, req.query, insertToken);
         });
       }
     // TO-DO - error handling

@@ -12,6 +12,9 @@ router.use(function(req, res, next){
 });
 
 router.get('/', function(req, res){
+  if(Database.connection.readyState !== 1){
+    Database.init();
+  }
   if(req.user){
     res.redirect('/');
   } else {

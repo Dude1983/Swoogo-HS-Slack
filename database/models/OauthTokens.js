@@ -11,6 +11,7 @@ var OauthTokens = new Schema({
   slack_access : {
   	state : String,
     access_token : String,
+    scope : String,
     user_id : String,
     team_name : String,
     team_id : String
