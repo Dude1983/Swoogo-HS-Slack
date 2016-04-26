@@ -116,6 +116,7 @@ var account = require('./routes/account');
 var notification = require('./routes/notification');
 var hs_auth = require('./routes/hs_auth');
 var slack_auth = require('./routes/slack_auth');
+var api_slack = require('./routes/api/slack');
 
 app.use('/', root);
 app.use('/login', login);
@@ -125,6 +126,7 @@ app.use('/account', account);
 app.use('/notification', notification);
 app.use('/hs_auth', hs_auth);
 app.use('/slack_auth', slack_auth);
+app.use('/api/slack', api_slack);
 
 //    - -   LISTEN    - -     //
 

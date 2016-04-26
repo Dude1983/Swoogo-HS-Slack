@@ -106,19 +106,23 @@ function insertToken (d, id){
 }
 
 function getToken (id, cb){
-  OauthTokens.where({"user_id" : id}).then(function(d){
-    cb(d[0].slack_access.access_token);
+   return OauthTokens.where({"user_id" : id}).then(function(d){
+    return cb(d[0].slack_access.access_token);
   })
 }
 
 function listChannels (token) {
-  options = {
-    method : "POST",
-    headers : {
-      "Content-Type" : "application/json"
-    },
-    body : querystring.stringify({
+
+  var params = querystring.stringify({
       token : token
     })
+  
+  var options = {
+    method : "GET",
+    uri : "https://slack.com/api/channels.list?" + params
   }
+  request(options, function(err, res, d){
+    if(err) throw err;
+    console.log(d);
+  })
 }
