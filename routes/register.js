@@ -2,8 +2,12 @@ var express = require('express');
 var ejs = require('ejs');
 var passport = require('passport');
 var User = require('../database/models/user');
+var Database = require('../database/db');
 
+
+var Database = Database();
 var router = express.Router();
+
 
 // TO-DO: if user is logged in or username is known -> redirect to index or login
 
