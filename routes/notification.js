@@ -15,7 +15,7 @@ var passport = require('passport');
 
 var Database = require('../database/db');
 var User = require('../database/models/user');
-var hsToken = require('../database/models/hsToken');
+var OauthTokens = require('../database/models/OauthTokens');
 
 
 var get_token = require('../classes/hs_utils').get_token;

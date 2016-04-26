@@ -103,3 +103,14 @@ Session info -
  JS Module Patterns
 
  http://www.adequatelygood.com/JavaScript-Module-Pattern-In-Depth.html
+
+
+ SLACK APIS
+
+  - Oauth - https://api.slack.com/docs/oauth
+    - token request - https://api.slack.com/methods/oauth.access
+    - Scoping - https://api.slack.com/docs/oauth-scopes
+    - test connection code - https://api.slack.com/methods/api.test
+  - Real Time Messaging API - https://api.slack.com/rtm
+  - Bot user - https://api.slack.com/bot-users
+  - Post message - https://api.slack.com/methods/chat.postMessage

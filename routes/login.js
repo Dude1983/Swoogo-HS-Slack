@@ -12,10 +12,12 @@ router.use(function(req, res, next){
 });
 
 router.get('/', function(req, res){
+
 	if(Database.connection.readyState !== 1){
 		Database.init();
 	}
   res.render('pages/login', {title : "login", user : req.user});
+  
 });
 
 router.post('/', passport.authenticate('local'), function(req, res) {

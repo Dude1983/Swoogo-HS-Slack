@@ -74,7 +74,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 // session logger -> store in MongoDB
 app.use(session({		
-  name: 'hsSlk_ln',
+  name: 'hs_Slck_l_n',
   secret: SESSION_ID,
   saveUninitialized: true,
   resave: false,
@@ -87,12 +87,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-//    - -   ERROR HANDLING    - -     //
-
-app.use(function(err, req, res, next) {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
-});
 
 //    - -   SESSION -> CONSOLE    - -     //
 /*
@@ -119,7 +113,9 @@ var login = require('./routes/login');
 var register = require('./routes/register');
 var logout = require('./routes/logout');
 var account = require('./routes/account');
-var notification = require('./routes/notification')
+var notification = require('./routes/notification');
+var hs_auth = require('./routes/hs_auth');
+var slack_auth = require('./routes/slack_auth');
 
 app.use('/', root);
 app.use('/login', login);
@@ -127,9 +123,18 @@ app.use('/register', register);
 app.use('/logout', logout);
 app.use('/account', account);
 app.use('/notification', notification);
-
+app.use('/hs_auth', hs_auth);
+app.use('/slack_auth', slack_auth);
 
 //    - -   LISTEN    - -     //
+
+//    - -   ERROR HANDLING    - -     //
+
+app.use(function(err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+  next(err);
+});
 
 app.listen(app.get('port'), function() {
   console.log('app is running on port', app.get('port'));

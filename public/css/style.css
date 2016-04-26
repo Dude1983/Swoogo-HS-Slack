@@ -94,11 +94,10 @@ textarea {
  ========================================================================== */
 
 
-
-
 .nav-row{
 	margin: 2.5rem 0;
 }
+
 ul.nav{
   height: 60px;
   padding-top: 15px;
@@ -128,10 +127,10 @@ form {
 	margin: 2.5rem 0;
 }
 .form-title{
+  position: relative;
   width: 85%;
   margin: 0 auto;
   color: #555;
-  text-align: left;
   font-size: 18px;
   font-weight: 600;
   line-height: 38px;
@@ -149,8 +148,29 @@ form input{
 	margin-top: 10px;
 }
 
+#hs_auth_form_title::after{
+  content: "";
+  background: url('../img/hubspot-sprocket-logo.png') no-repeat center center;
+  width: 50px;
+  height: 50px;
+  background-size: 25px;
+  position: absolute;
+  right: -30px;
+  top: -10px;
 
+}
 
+#slack_auth_form_title::after{
+  content: "";
+  background: url('../img/Slack_Icon.png') no-repeat center center;
+  width: 50px;
+  height: 50px;
+  background-size: 25px;
+  position: absolute;
+  right: -30px;
+  top: -10px;
+
+}
 /* ==========================================================================
  Helper classes
  ========================================================================== */

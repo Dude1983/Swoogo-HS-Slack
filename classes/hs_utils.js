@@ -13,7 +13,7 @@ var fs = require('fs');
  *  @param Oauth {} mongoDb schema for HS Oauth tokens
  */
 
-var hsToken = require('../database/models/hsToken');
+var OauthTokens = require('../database/models/OauthTokens');
 
 
 //    - -   EXPORTS     - -     //
@@ -36,7 +36,8 @@ var TTL = process.env["TTL"];
 
 function get_token (id, cb) {
 
-  hsToken.where("user_id", id).then(function(d){
+
+  OauthTokens.where("user_id", id).then(function(d){
 
     var dateNow = new Date();
     var refreshedTime = new Date(d[0].hs_access.refreshed);
@@ -46,7 +47,7 @@ function get_token (id, cb) {
     // if accessToken expired (converts time to seconds)
     //if((dateNow - refreshedTime) / 1000 >= TTL){
 
-      refresh(refreshToken, id, hsToken, cb);
+      refresh(refreshToken, id, OauthTokens, cb);
       return;
 
     //} else {
@@ -60,7 +61,7 @@ function get_token (id, cb) {
 
 }
 
-function refresh(refreshToken, id, hsToken, cb){
+function refresh(refreshToken, id, OauthTokens, cb){
   
   // POST options 
   var options = {
@@ -68,10 +69,11 @@ function refresh(refreshToken, id, hsToken, cb){
     uri : "https://api.hubapi.com/auth/v1/refresh",
     body: querystring.stringify({
       refresh_token: refreshToken,
-      client_id :process.env["CLIENT_ID"],
+      client_id :process.env["HS_CLIENT_ID"],
       grant_type : "refresh_token"
     })
   }
+
 
   // refresh access token
   request(options, function(err, res, d){
@@ -80,13 +82,14 @@ function refresh(refreshToken, id, hsToken, cb){
     
     var responseBody = JSON.parse(d);
 
+
     // execute callback
     cb(responseBody.access_token);
 
 
 
       // update hsToken document in MongoDb
-      hsToken.update({ "user_id" : id }, 
+      OauthTokens.update({ "user_id" : id }, 
         { $set : {
           hs_access : {
             access_token: responseBody.access_token,
@@ -94,6 +97,8 @@ function refresh(refreshToken, id, hsToken, cb){
             refreshed : new Date()
           }
         }
+      },function(err){
+        if(err) throw err;
       });
 
       
