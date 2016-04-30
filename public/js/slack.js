@@ -3,7 +3,10 @@
   slack = window.slack = {};
 
   slack.getChannels = function(){
-    $.ajax
+    $.ajax({
+      type : "GET",
+      url : ""
+    })
   }
 
 })()
