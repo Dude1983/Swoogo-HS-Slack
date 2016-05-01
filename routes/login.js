@@ -16,7 +16,7 @@ router.get('/', function(req, res){
 	if(Database.connection.readyState !== 1){
 		Database.init();
 	}
-  res.render('pages/login', {title : "login", user : req.user});
+  res.render('pages/login', {title : "Login", user : req.user});
   
 });
 
