@@ -66,9 +66,19 @@ router.get('/', function(req, res){
 
 router.post('/', function(req, res){
   res.status(200);
+
+  var properties = req.body.properties;
   
-  console.log(req.body);
-  //console.log(new Buffer(req.headers.authorization.toString().split(' ')[1], 'base64').toString('ascii'));
+  var profile = {
+    profile_url : req.body["profile-url"],
+    owner : properties.hubspot_owner_id,
+    first_name : properties.firstname,
+    last_name : properties.lastname,
+    phone : properties.phone,
+    email : properties.email.value
+  }
+  console.log(profile);
+  var authHeader = new Buffer(req.headers.authorization.toString().split(' ')[1], 'base64').toString('ascii');
   res.end();
 });
 
