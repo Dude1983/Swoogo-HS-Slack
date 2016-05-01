@@ -66,7 +66,7 @@ router.get('/', function(req, res){
 
 router.post('/', function(req, res){
   res.status(200);
-  console.log(req.body);
+  console.log(req.headers);
   res.end();
 });
 
