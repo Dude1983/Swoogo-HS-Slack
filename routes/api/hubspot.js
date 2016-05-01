@@ -66,7 +66,7 @@ router.get('/', function(req, res){
 
 router.post('/', function(req, res){
   res.status(200);
-  console.log(req.headers.authorization.split[' '][1]);
+  console.log(req.headers.authorization);
   res.end();
 });
 
