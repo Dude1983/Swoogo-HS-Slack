@@ -50,12 +50,7 @@ router.get('/', function(req, res){
     res.redirect('/login');
   } else {
   
-    // if first login insert new Oauth row
-  	//Database.newOauthRow(req.user.id);
-
-    res.status(200).send('OK');
-      
-      
+    hsUtils.getContactProperties()
   
   }
 })
@@ -80,8 +75,6 @@ router.post('/', function(req, res){
     email : properties.email.value
   }
 
-  
-  
   res.end();
 });
 

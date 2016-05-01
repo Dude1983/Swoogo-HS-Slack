@@ -3,6 +3,12 @@
 
 <%- include('../partials/nav') -%>
 
+<% if(!user){ %>
+	<a href="/login">Login</a>
+	<a href="/register">Register</a>
+<% } else {  %>
+	<p id="logged_in_user"> You're logged in as <%= user.username %> </p>
+<% } %>
 
 <div class="row">
 	<div class="form-wrapper">
@@ -25,13 +31,13 @@
 <div class="row">
 	<div class="form-wrapper">
 		<% if(Oauth.slack === true) { %>
-			<h4 id="slack_auth_form_title" class="form-title">Slack is Connected!</h4>
+			<h4  class="form-title slack_auth_form_title">Slack is Connected!</h4>
 			<form action="/slack_auth" method="POST">
 				<input name="slackDisconnect" value="true" hidden>
 				<button type="submit">Disconnect</button>
 			</form>
 		<% } else { %>
-			<h4 id="slack_auth_form_title" class="form-title">Authorize Slack</h4>
+			<h4 class="form-title slack_auth_form_title">Authorize Slack</h4>
 			<form action="/slack_auth" method="POST">
 				<input type="text" name="authorize" value="true" hidden>
 			  <button type="submit" class="form-btn">Authorize</button>

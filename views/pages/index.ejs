@@ -6,10 +6,27 @@
 
 	<% if(!user){ %>
 		<a href="/login">Login</a>
-    <a href="/register">Register</a>
+  	<a href="/register">Register</a>
 	<% } else {  %>
-  	<p> You're logged in as <%= user.username %> </p>
+		<p id="logged_in_user"> You're logged in as <%= user.username %> </p>
  	<% } %>
-
-
+  <div class="row">
+    <div class="form-wrapper">
+      <h4 class="form-title slack_auth_form_title">Slack Channel</h4>
+      <select id="channels" name="" class=""></select>
+      <button id="default_channel">Set Default</button>
+    </div>
+  </div>
+  <!--
+  <div class="row">
+    <div class="form-wrapper">
+      <h4 class="form-title">Lead Properties</h4>
+      <form>
+        <div id="default_properties"></div>
+      </form>
+    </div>
+  </div>
+-->
 <%- include('../partials/footer') -%>
+
+

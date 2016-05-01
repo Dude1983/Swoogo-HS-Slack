@@ -72,7 +72,7 @@ router.get('/', function(req, res){
         Oauth.slack = true;
       }   
 
-      res.render('pages/account', {title : "Account | LeadNotify", user : req.user, Oauth : Oauth});
+      res.render('pages/account', {title : "Accounts | LeadNotify", user : req.user, Oauth : Oauth});
 
     })
 

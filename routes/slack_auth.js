@@ -88,7 +88,7 @@ router.get('/', function(req, res){
   } else {
 
 
-      // if state is passed as a param in GET request
+      // if state is passed as a param in GET request - make exchange for Access Token
       if(req.query.state){
         OauthTokens.where({ "user_id" : req.user.id }).then(function (d) {
           Oauth(d, req.query, insertToken);

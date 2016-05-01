@@ -120,10 +120,18 @@ function getContactProperties(accessToken){
 
     //fs.writeFile('../hs_contact_properties.json', d, 'utf8');
 
-    //console.log(responseBody);
-    responseBody.forEach(function(d){
-
-    })
+    console.log(responseBody);
+    /*mongoose.models.slackMetaData.update({ "user_id" :  id},
+      { $set : 
+        {
+          channels : JSON.parse(d).channels
+        }
+      }, { upsert : true },
+    function(err){
+      if(err){
+        console.log(err);
+      } 
+    })*/
 
   })
 

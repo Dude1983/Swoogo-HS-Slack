@@ -69,16 +69,19 @@ Database.prototype.init = function  (){
   }); 
 }
 
-/*
-Database.prototype.insert = function (Model, data){
 
-  var row = new Model(data);
-
-  row.save(function(err, row){
-    if(err) throw err;
-  });
-
-} */
+Database.prototype.upsert = function (doc, data, id){
+  
+  doc.update({ "user_id" :  id}, 
+    { $set : data },
+    { upsert : true },
+    function(err){
+      if(err){
+        console.log(err);
+      } 
+    });
+  
+} 
 
 Database.prototype.newOauthRow = function(id){
   // if Oauth model not in DB create one

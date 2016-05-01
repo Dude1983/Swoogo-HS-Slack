@@ -15,6 +15,7 @@ var fs = require('fs');
  */
 
 var OauthTokens = require('../database/models/OauthTokens');
+var Database = require('../database/db.js');
 
 
 //    - -   EXPORTS     - -     //
@@ -24,6 +25,7 @@ module.exports.getToken = getToken;
 module.exports.insertToken = insertToken;
 module.exports.authTest = authTest;
 module.exports.listChannels = listChannels;
+
 
 //    - -   ENV VARIABLES   - -     //
 
@@ -82,6 +84,20 @@ function Oauth (row, req, insertToken){
       }
     })
 
+    var options = {
+      method : "POST",
+      body : {
+        get_channels : true
+      },
+      uri : "/api/slack"
+    }
+
+
+    request(options, function(err, res, d){
+      if(err) throw err;
+      console.log(d);
+    });
+
 //  }
 }
 
@@ -107,11 +123,11 @@ function insertToken (d, id){
 
 function getToken (id, cb){
    return OauthTokens.where({"user_id" : id}).then(function(d){
-    return cb(d[0].slack_access.access_token);
+    return cb(d[0].slack_access.access_token, id);
   })
 }
 
-function listChannels (token) {
+function listChannels (token, id) {
 
   var params = querystring.stringify({
       token : token
@@ -123,6 +139,16 @@ function listChannels (token) {
   }
   request(options, function(err, res, d){
     if(err) throw err;
-    console.log(d);
+    mongoose.models.slackMetaData.update({ "user_id" :  id},
+      { $set : 
+        {
+          channels : JSON.parse(d).channels
+        }
+      }, { upsert : true },
+    function(err){
+      if(err){
+        console.log(err);
+      } 
+    })
   })
 }

@@ -9,6 +9,7 @@
 var express = require('express');
 var ejs = require('ejs');
 var passport = require('passport');
+var mongoose = require('mongoose');
 
 
 //    - -   APP MODULES  - -     //
@@ -22,6 +23,7 @@ var passport = require('passport');
 var Database = require('../../database/db');
 var User = require('../../database/models/user');
 var OauthTokens = require('../../database/models/OauthTokens');
+var slackMetaData = require('../../database/models/slackMetaData');
 
 
 //    - -   REQUIRED METHODS  - -     //
@@ -36,36 +38,54 @@ var router = express.Router();
 
 
 router.use(function(req, res, next){
-	next();
+  if(!req.user){
+    res.redirect('/login');
+  } else {
+	 next();
+  }
 })
 
 /*
  *    - -   GET REQUESTS     - -     *//*
  */
+
+
 router.get('/', function(req, res){
-	
+  res.status(200).send(slackUtils.getToken(req.user.id, slackUtils.listChannels));
+  res.end();
+});
 
-  // TO-DO check cookie in req.headers to confirm auth
-  /*if(!req.user){
-    res.redirect('/login');
-  } else {
-  	*/
-    // if first login insert new Oauth row
-  	//Database.newOauthRow(req.user.id);
-
-    res.status(200).send(slackUtils.getToken(req.user.id, slackUtils.listChannels));
-      
-      
+// get saved channels from DB
+router.get('/channels', function(req, res){
   
-  //}
-})
+  slackMetaData.where({"user_id" : req.user.id}).then(function(d){
+    res.status(200).send(d[0]);
+    res.end();
+  })	
+
+});
+
+
 
 /*
  *    - -   POST REQUESTS     - -     *//*
  */
 
 router.post('/', function(req, res){
-  res.status(405);  // POST REQUESTS NOT ACCEPTED AT THIS PATH
+
+  // after Access Token is received get channel list from Slack
+  if(req.body.get_channels){
+    res.status(200).send(slackUtils.getToken(req.user.id, slackUtils.listChannels));
+    res.end();
+  }
+
+});
+
+// Sets the default channel
+router.post('/channels/set', function(req, res){
+  Database.upsert( slackMetaData, { default_channel: req.body.default_channel }, req.user.id );
+  res.status(200).send(null, null, 'OK');
+  res.end();
 });
 
 

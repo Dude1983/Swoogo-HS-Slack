@@ -112,6 +112,7 @@ ul.nav{
 }
 
 .form-wrapper {
+  position: relative;
   margin: 7.5rem auto;
   max-width: 400px;
   padding: 30px;
@@ -160,7 +161,7 @@ form input{
 
 }
 
-#slack_auth_form_title::after{
+.slack_auth_form_title::after{
   content: "";
   background: url('../img/Slack_Icon.png') no-repeat center center;
   width: 50px;
@@ -171,6 +172,34 @@ form input{
   top: -10px;
 
 }
+
+
+/*
+*  Index.html
+*/
+
+#logged_in_user{
+  position: absolute;
+  top: 100px;
+  right: 0;
+}
+#channels {
+  min-width: 250px;
+  margin: 2.5rem 0;
+}
+.fa-spinner {
+  position: absolute;
+  margin-left: 15px;
+  margin-top: 5px;
+}
+i.fa.fa-check {
+    position: absolute;
+    margin-left: 15px;
+    margin-top: 5px;
+    color: lightgreen;
+}
+
+
 /* ==========================================================================
  Helper classes
  ========================================================================== */
