@@ -46,10 +46,10 @@ router.get('/', function(req, res){
 	
 
   // TO-DO check cookie in req.headers to confirm auth
-  /*if(!req.user){
+  if(!req.user){
     res.redirect('/login');
   } else {
-  	*/
+  
     // if first login insert new Oauth row
   	//Database.newOauthRow(req.user.id);
 
@@ -57,7 +57,7 @@ router.get('/', function(req, res){
       
       
   
-  //}
+  }
 })
 
 /*
@@ -65,7 +65,7 @@ router.get('/', function(req, res){
  */
 
 router.post('/', function(req, res){
-  res.status(200).render(req.body);
+  res.status(200).send(req.body);
 });
 
 
