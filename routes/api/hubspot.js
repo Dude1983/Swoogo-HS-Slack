@@ -66,7 +66,7 @@ router.get('/', function(req, res){
 
 router.post('/', function(req, res){
   res.status(200);
-  console.log(req.headers.authorization.toString().split(' '));
+  console.log(new Buffer(req.headers.authorization.toString().split(' ')[1], 'base64').toString('ascii'));
   res.end();
 });
 
