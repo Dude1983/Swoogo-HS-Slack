@@ -152,3 +152,17 @@ function listChannels (token, id) {
     })
   })
 }
+
+function postMessage(data){
+  console.log(data);
+  /*var profile = {
+    profile_url : req.body["profile-url"],
+    owner : properties.hubspot_owner_id.value,
+    first_name : properties.firstname.value,
+    last_name : properties.lastname.value,
+    phone : properties.phone.value,
+    email : properties.email.value
+  } */
+
+
+}

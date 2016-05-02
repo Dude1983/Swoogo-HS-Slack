@@ -149,7 +149,35 @@ form input{
 	margin-top: 10px;
 }
 
-#hs_auth_form_title::after{
+.info::after{
+  content: "\f05a";
+  font-family: FontAwesome;
+  position: absolute;
+  right: 0;
+
+}
+
+.info:hover::after{
+  cursor: pointer;
+}
+
+.info:hover::after #org_id_tooltip{
+  display: block;
+}
+
+#org_id_tooltip {
+  display: none;
+  position: absolute;
+  padding: 10px;
+  background-color: rgba(187, 187, 187, 0.25);
+  border-radius: 5px;
+  border: 1px solid #bbb;
+  width: 300px;
+  top: 0;
+  right: -350px;
+}
+
+.hs_auth_form_title::after{
   content: "";
   background: url('../img/hubspot-sprocket-logo.png') no-repeat center center;
   width: 50px;
@@ -171,6 +199,10 @@ form input{
   right: -30px;
   top: -10px;
 
+}
+
+#org_id .fa-check{
+  margin-top: 10px;
 }
 
 

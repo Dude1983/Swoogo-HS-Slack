@@ -118,6 +118,7 @@ var hs_auth = require('./routes/hs_auth');
 var slack_auth = require('./routes/slack_auth');
 var api_slack = require('./routes/api/slack');
 var api_hubspot = require('./routes/api/hubspot');
+var message_meta = require('./routes/api/message_meta');
 
 app.use('/', root);
 app.use('/login', login);
@@ -129,6 +130,7 @@ app.use('/hs_auth', hs_auth);
 app.use('/slack_auth', slack_auth);
 app.use('/api/slack', api_slack);
 app.use('/api/hubspot', api_hubspot);
+app.use('/api/message', message_meta);
 
 //    - -   LISTEN    - -     //
 

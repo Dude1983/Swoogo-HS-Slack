@@ -66,15 +66,8 @@ router.post('/', function(req, res){
 
   var properties = req.body.properties;
   
-  var profile = {
-    profile_url : req.body["profile-url"],
-    owner : properties.hubspot_owner_id.value,
-    first_name : properties.firstname.value,
-    last_name : properties.lastname.value,
-    phone : properties.phone.value,
-    email : properties.email.value
-  }
 
+  slackUtils.postMessage({auth : authHeader, properties : properties});
   res.end();
 });
 

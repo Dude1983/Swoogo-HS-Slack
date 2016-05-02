@@ -9,7 +9,6 @@
 var express = require('express');
 var ejs = require('ejs');
 var passport = require('passport');
-var mongoose = require('mongoose');
 
 
 //    - -   APP MODULES  - -     //
@@ -23,7 +22,6 @@ var mongoose = require('mongoose');
 var Database = require('../../database/db');
 var User = require('../../database/models/user');
 var OauthTokens = require('../../database/models/OauthTokens');
-var slackMetaData = require('../../database/models/slackMetaData');
 var messageMetaData = require('../../database/models/messageMetaData');
 
 
@@ -42,56 +40,46 @@ router.use(function(req, res, next){
   if(!req.user){
     res.redirect('/login');
   } else {
-	 next();
+  	next();
   }
 })
 
 /*
  *    - -   GET REQUESTS     - -     *//*
  */
-
-
 router.get('/', function(req, res){
-  //res.status(200).send(slackUtils.getToken(req.user.id, slackUtils.listChannels));
-  res.end();
-});
+	
 
-// get saved channels from DB
-router.get('/channels', function(req, res){
   
-  slackMetaData.where({"user_id" : req.user.id}).then(function(d){
-    res.status(200).send(d[0]);
+  res.end();
+})
+
+router.get('/meta', function(req, res){
+  
+  messageMetaData.where({"user_id" : req.user.id}).then(function(d){
+    console.log(d[0]);
+    res.status(200).send(d[0].organization.username);
     res.end();
-  })	
-
-});
-
-
+  })    
+  
+})
 
 /*
  *    - -   POST REQUESTS     - -     *//*
  */
 
-router.post('/', function(req, res){
-
-  // after Access Token is received get channel list from Slack
-  if(req.body.get_channels){
-    res.status(200).send(slackUtils.getToken(req.user.id, slackUtils.listChannels));
-    res.end();
-  }
-
-});
-
-// Sets the default channel
-router.post('/channels/set', function(req, res){
-
-  // log slack metadata
-  Database.upsert( slackMetaData, { default_channel: req.body.default_channel }, req.user.id );
-
-  // log notification metadata
-  Database.upsert( messageMetaData, { default_channel: req.body.default_channel }, req.user.id );
+router.post('/update', function(req, res){
 
   res.status(200);
+
+  Database.upsert( messageMetaData, 
+  { organization : 
+    {
+      username : req.body.username,
+      password : req.body.password
+    }
+  }, req.user.id );
+
   res.end();
 });
 
