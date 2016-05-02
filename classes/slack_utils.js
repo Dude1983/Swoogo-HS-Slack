@@ -86,6 +86,8 @@ function Oauth (row, req, insertToken){
     })
 
 
+    console.log("slack_utils Oauth 89:  getToken() :" + getToken + " listChannels():" + listChannels );
+
     // upsert channels list
     getToken(req.user.id, listChannels);
     /*
@@ -119,12 +121,16 @@ function insertToken (d, id){
 }
 
 function getToken (id, cb){
-   return OauthTokens.where({"user_id" : id}).then(function(d){
-    return cb(d[0].slack_access.access_token, id);
+
+  console.log("slack_utils.js getToken 123: " + id + " " + cb);
+    OauthTokens.where({"user_id" : id}).then(function(d){
+      cb(d[0].slack_access.access_token, id);
   })
 }
 
 function listChannels (token, id) {
+
+  console.log("slack_utils.js 129: " + token + " " + id);
 
   var params = querystring.stringify({
       token : token

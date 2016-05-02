@@ -19,6 +19,8 @@
   	var html, default_channel;
     
     $.get('api/slack/channels', function(d){
+
+      console.log(d);
     	
       default_channel = d.default_channel;
 
