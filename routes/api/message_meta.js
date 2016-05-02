@@ -57,7 +57,6 @@ router.get('/', function(req, res){
 router.get('/meta', function(req, res){
   
   messageMetaData.where({"user_id" : req.user.id}).then(function(d){
-    console.log(d[0]);
     res.status(200).send(d[0].organization.username);
     res.end();
   })    
