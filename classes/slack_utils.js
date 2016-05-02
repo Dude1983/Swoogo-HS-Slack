@@ -79,12 +79,16 @@ function Oauth (row, req, insertToken){
       if(err) throw err;
       
       if(JSON.parse(d).ok){
+        
+        // insert Oauth tokens into Oauth model
         insertToken(JSON.parse(d), row[0].user_id);
+
+        // get channels list from Slack and upsert into SlackMetaData model
+        listChannels(JSON.parse(d).access_token, row[0].user_id);
       }
     });
 
-    // upsert channels list
-    getToken(req.user.id, listChannels);
+    
     /*
 
     var options = {
