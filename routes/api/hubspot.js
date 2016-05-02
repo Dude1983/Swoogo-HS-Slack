@@ -50,7 +50,7 @@ router.get('/', function(req, res){
     res.redirect('/login');
   } else {
   
-    hsUtils.getContactProperties()
+    return;
   
   }
 })

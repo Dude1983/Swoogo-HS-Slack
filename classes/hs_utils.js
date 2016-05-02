@@ -13,7 +13,7 @@ var fs = require('fs');
  *  @param Oauth {} mongoDb schema for HS Oauth tokens
  */
 
-var Database = require('../database/db');
+var Database = require('../database/db')();
 var OauthTokens = require('../database/models/OauthTokens');
 var hubspotMetaData = require('../database/models/hubspotMetaData');
 
@@ -52,45 +52,43 @@ function get_token (id, cb) {
 }
 
 function refresh(refreshToken, id, OauthTokens, cb){
-  
-  // POST options 
-  var options = {
-    method: "POST",
-    uri : "https://api.hubapi.com/auth/v1/refresh",
-    body: querystring.stringify({
-      refresh_token: refreshToken,
-      client_id :process.env["HS_CLIENT_ID"],
-      grant_type : "refresh_token"
-    })
-  }
 
+  var body =  querystring.stringify({
+    refresh_token: refreshToken,
+    client_id :process.env["HS_CLIENT_ID"],
+    grant_type : "refresh_token"
+  });
 
   // refresh access token
-  request(options, function(err, res, d){
-    if(err) console.log(err);
-    
-    
-    var responseBody = JSON.parse(d);
-
-    // execute callback
-    cb(responseBody.access_token);
-
-    Database.upsert(OauthTokens,
-      {
-        hs_access : {
-          access_token: responseBody.access_token,
-          refresh_token: responseBody.refresh_token,
-          refreshed : new Date()
-        }
-      }, id);
-
+  request({
+    method: "POST",
+    uri : "https://api.hubapi.com/auth/v1/refresh",
+    body : body
+    }, 
+    function(err, res, d){
+      if(err) console.log(err);
       
-  })
+      var responseBody = JSON.parse(d);
+
+      // execute callback
+      cb(responseBody.access_token, id);
+
+      Database.upsert(OauthTokens,
+        {
+          hs_access : {
+            access_token: responseBody.access_token,
+            refresh_token: responseBody.refresh_token,
+            refreshed : new Date()
+          }
+        }, 
+      id);
+    }
+  )
 
 }
 
-function getContactProperties(accessToken){
-  
+function getContactProperties(accessToken, id){
+
   options = {
     method : "GET",
     uri : "https://api.hubapi.com/contacts/v2/properties?access_token=" + accessToken
@@ -98,11 +96,28 @@ function getContactProperties(accessToken){
 
   request(options, function(err, res, d){
     if(err) console.log(err);
-    
-    var responseBody = JSON.parse(d);
+    formatContactProperties(JSON.parse(d), id);
+  });
 
-    
+}
 
-  })
+function formatContactProperties(d, id){
+  var properties = [];
+  d.forEach(function(d){
+    if(!d.hidden){
+      var prop = {
+        name : d.name,
+        label : d.label,
+        groupName : d.groupName
+      };
+      properties.push(prop);
+    }
+  });
+  upsertContactProperties(properties, id);
+}
 
+function upsertContactProperties(d, id){
+  Database.upsert(hubspotMetaData, {
+    properties : d
+  }, id);
 }

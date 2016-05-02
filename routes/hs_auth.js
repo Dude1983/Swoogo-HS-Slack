@@ -27,6 +27,7 @@ var querystring = require('querystring');
 var Database = require('../database/db')();
 var User = require('../database/models/user');
 var OauthTokens = require('../database/models/OauthTokens');
+var hsUtils = require('../classes/hs_utils');
 
 var router = express.Router();
 
@@ -90,6 +91,8 @@ router.get('/', function(req, res){
           refreshed : new Date()
         }
       }, req.user.id);
+
+    hsUtils.getContactProperties(req.query.access_token, req.user.id);
 
     res.redirect('/account');
     res.end();
