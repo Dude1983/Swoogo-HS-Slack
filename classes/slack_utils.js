@@ -79,14 +79,9 @@ function Oauth (row, req, insertToken){
       if(err) throw err;
       
       if(JSON.parse(d).ok){
-        console.log(d);
         insertToken(JSON.parse(d), row[0].user_id);
-        
       }
-    })
-
-
-    console.log("slack_utils Oauth 89:  getToken() :" + getToken + " listChannels():" + listChannels );
+    });
 
     // upsert channels list
     getToken(req.user.id, listChannels);
