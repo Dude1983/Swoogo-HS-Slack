@@ -19,7 +19,7 @@ var passport = require('passport');
  *  @param OauthTokens {} mongoDb schema for Oauth tokens
  */
 
-var Database = require('../database/db');
+var Database = require('../database/db')();
 var User = require('../database/models/user');
 var OauthTokens = require('../database/models/OauthTokens');
 
@@ -30,8 +30,6 @@ var hsUtils = require('../classes/hs_utils');
 var slackUtils = require('../classes/slack_utils');
 
 
-
-var Database = Database();
 var router = express.Router();
 
 
@@ -43,18 +41,16 @@ router.use(function(req, res, next){
  *    - -   GET REQUESTS     - -     *//*
  */
 router.get('/', function(req, res){
-	if(!req.user){
+  
+  if(!req.user){
     res.redirect('/login');
   } else {
-  	
     // if first login insert new Oauth row
   	Database.newOauthRow(req.user.id);
 
-
   	res.render('pages/index', {	title : "HubSpot Lead Notifications for Slack | LeadNotify", user : req.user });
-  
   }
-})
+});
 
 /*
  *    - -   POST REQUESTS     - -     *//*

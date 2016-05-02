@@ -70,17 +70,17 @@ Database.prototype.init = function  (){
 }
 
 
-Database.prototype.upsert = function (doc, data, id){
+Database.prototype.upsert = function (row, data, id){
   
-  doc.update({ "user_id" :  id}, 
+  row.update({ "user_id" :  id}, 
     { $set : data },
     { upsert : true },
     function(err){
       if(err){
         console.log(err);
       } 
-    });
-  
+    }
+  );  
 } 
 
 Database.prototype.newOauthRow = function(id){

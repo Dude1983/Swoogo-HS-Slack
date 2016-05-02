@@ -27,10 +27,9 @@ Database = Database();
 
 module.exports.Oauth = Oauth;
 module.exports.getToken = getToken;
-module.exports.insertToken = insertToken;
 module.exports.listChannels = listChannels;
 module.exports.postMessage = postMessage;
-module.exports.getMessageMeta = getMessageMeta;
+module.exports.getMessageMetaData = getMessageMetaData;
 
 
 //    - -   ENV VARIABLES   - -     //
@@ -50,7 +49,7 @@ var slack_redirect_uri = process.env["SLACK_REDIRECT_URI"];
 //    - -     METHODS       - -   //
 
 
-function Oauth (row, req, insertToken){
+function Oauth (row, req){
 
 
 // TO-DO: ensure auth
@@ -78,79 +77,68 @@ function Oauth (row, req, insertToken){
     request(options, function(err, res, d){
       if(err) throw err;
       
-      if(JSON.parse(d).ok){
+      var body = JSON.parse(d);
+      if(body.ok){
         
         // insert Oauth tokens into Oauth model
-        insertToken(JSON.parse(d), row[0].user_id);
+        Database.upsert(OauthTokens, 
+        {
+          slack_access : {
+            access_token : d.access_token,
+            scope : body.scope,
+            user_id : row[0].user_id,
+            team_name : body.team_name,
+            team_id : body.team_id
+          }
+        }, row[0].user_id);
 
         // get channels list from Slack and upsert into SlackMetaData model
-        listChannels(JSON.parse(d).access_token, row[0].user_id);
+        listChannels(body.access_token, row[0].user_id);
       }
-    });
-
-    
-    /*
-
-    var options = {
-      method : "POST",
-      uri : "/api/slack/channels/get"
-    }
-
-    // get slack channels
-    request(options, function(err, res, d){
-      if(err) throw err;
-      console.log(d);
     });
 
 //  }*/
 }
 
-function insertToken (d, id){
-
-  Database.upsert(OauthTokens, 
-    {
-      slack_access : {
-        access_token : d.access_token,
-        scope : d.scope,
-        user_id : d.user_id,
-        team_name : d.team_name,
-        team_id : d.team_id
-      }
-    }, id);
-}
+/*
+ *  gets cached access token from DB and executes a callback
+ */ 
 
 function getToken (id, cb){
-
-  console.log("slack_utils.js getToken 123: " + id + " " + cb);
-    OauthTokens.where({"user_id" : id}).then(function(d){
-      cb(d[0].slack_access.access_token, id);
-  })
+  OauthTokens.where({"user_id" : id}).then(function(d){
+    cb(d[0].slack_access.access_token, id);
+  });
 }
+
+/*
+ *  gets channels from Slack API
+ *  and upserts response into SlackMetaData table
+ */
 
 function listChannels (token, id) {
 
-  console.log("slack_utils.js 129: " + token + " " + id);
-
   var params = querystring.stringify({
-      token : token
-    })
+    token : token
+  });
   
-  var options = {
-    method : "GET",
-    uri : "https://slack.com/api/channels.list?" + params
-  }
-  
-  // Get channels
-  request(options, function(err, res, d){
-    if(err) throw err;
-    Database.upsert(slackMetaData, 
-      {
-        channels : JSON.parse(d).channels
-      }, id);
-    });
+  // Get channels from Slack API
+  request({
+      method : "GET",
+      uri : "https://slack.com/api/channels.list?" + params
+    }, 
+    function(err, res, d){
+      if(err) throw err;
+
+      // upsert channels list
+      Database.upsert(slackMetaData, 
+        {
+          channels : JSON.parse(d).channels
+        },id);
+    }
+  );
 }
 
-function getMessageMeta(data){
+function getMessageMetaData(data){
   messageMetaData.where({'user_id' : data.user_id})
     .then(function(d){
       //if()

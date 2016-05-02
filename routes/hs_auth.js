@@ -31,7 +31,6 @@ var OauthTokens = require('../database/models/OauthTokens');
 var router = express.Router();
 
 
-
 //    - -   ENV VARIABLES   - -     //
 
 /* 
@@ -84,22 +83,13 @@ router.get('/', function(req, res){
     
 
     // upsert HUBSPOT Oauth params in DB
-    OauthTokens.where()
-      .update({ "user_id" : req.user.id }, 
-        { $set : 
-          {
-            hs_access : {
-              refresh_token : req.query.refresh_token,
-              refreshed : new Date()
-            }
-          }
-        }, {upsert : true},
-        function(err){
-          if(err){
-            console.log(err);
-          }
-      });
-
+    Database.upsert(OauthTokens, 
+      {
+        hs_access : {
+          refresh_token : req.query.refresh_token,
+          refreshed : new Date()
+        }
+      }, req.user.id);
 
     res.redirect('/account');
     res.end();
@@ -124,20 +114,13 @@ router.post('/', function(req, res){
   if(req.body.hubspotDisconnect){
 
     // upsert HUBSPOT Oauth params in DB
-    OauthTokens.update({'user_id' : req.user.id},
-      { $set :
-        {
-          hs_access : {
-            refresh_token : null,
-            refreshed : null
-          }
-        }
-      }, function(err){
-          if(err) throw err;
-          res.redirect('account');
-          res.end();
-    })
-    
+    Database.upsert(OauthTokens,
+    {
+      hs_access : {
+        refresh_token : null,
+        refreshed : null
+      }
+    }, req.user.id);
   }
 });
 

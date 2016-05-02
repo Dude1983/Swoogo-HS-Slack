@@ -48,9 +48,6 @@ router.use(function(req, res, next){
  *    - -   GET REQUESTS     - -     *//*
  */
 router.get('/', function(req, res){
-	
-
-  
   res.end();
 })
 

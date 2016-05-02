@@ -46,19 +46,7 @@ function get_token (id, cb) {
     var accessToken =  d[0].hs_access.access_token;
     var refreshToken = d[0].hs_access.refresh_token;
 
-    // if accessToken expired (converts time to seconds)
-    //if((dateNow - refreshedTime) / 1000 >= TTL){
-
-      refresh(refreshToken, id, OauthTokens, cb);
-      return;
-
-    //} else {
-      
-      //cb(accessToken);
-      //return;
-
-    //}
-
+    refresh(refreshToken, id, OauthTokens, cb);
   });  
 
 }
@@ -112,7 +100,6 @@ function getContactProperties(accessToken){
     if(err) console.log(err);
     
     var responseBody = JSON.parse(d);
-
 
     
 

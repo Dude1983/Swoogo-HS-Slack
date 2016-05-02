@@ -14,8 +14,11 @@
 
   if(path === '/account'){
     
+
+    // initiates onpage event listeners
     util.initListeners();
 
+    // displays the Org Auth Info in the accounts screen
     util.getOrgInfo();
 
 

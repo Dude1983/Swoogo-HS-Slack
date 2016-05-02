@@ -9,16 +9,16 @@
 //    - - 	REQUIRED MODULES  	- -     //
 
 var express = require('express');
-var helmet = require('helmet');  // some security protection
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
-var csrf = require('csurf');
+var helmet = require('helmet');  // some security protection - TO-DO
+var bodyParser = require('body-parser'); // middleware for parsing response body
+var cookieParser = require('cookie-parser'); // middleware for parsing cookies in request headers
+var session = require('express-session');  // middleware for sessiong logging
+var csrf = require('csurf');  // TO-DO implement csrf protection 
 var uuid = require('node-uuid');  // GUID generator
 var env = require('dotenv').config();  // for reading ENV VARIABLES
-var MongoStore = require('connect-mongo')(session);
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+var MongoStore = require('connect-mongo')(session);  // stores session info in DB
+var passport = require('passport');  // plugin that handles user authentication
+var LocalStrategy = require('passport-local').Strategy;  // plugin for hashing passwords etc.
 
 
 //		- - 	APP MODULES 	- - 	//

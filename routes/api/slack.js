@@ -60,7 +60,7 @@ router.get('/', function(req, res){
 router.get('/channels', function(req, res){
   
   slackMetaData.where({"user_id" : req.user.id}).then(function(d){
-    res.status(200).send(d[0]);
+    res.status(200).send({channels : d[0].channels, default_channel : d[0].default_channel});
     res.end();
   })	
 
@@ -71,15 +71,7 @@ router.get('/channels', function(req, res){
 /*
  *    - -   POST REQUESTS     - -     *//*
  */
-/*
-router.post('/channels/get', function(req, res){
 
-  // after Access Token is received get channel list from Slack
-    res.status(200).send(slackUtils.getToken(req.user.id, slackUtils.listChannels));
-    res.end();
-
-});
-*/
 // Sets the default channel
 router.post('/channels/set', function(req, res){
 

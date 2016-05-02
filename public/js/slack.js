@@ -4,38 +4,40 @@
 
   slack = window.slack = {};
 
+  // initiates onpage event listeners
   slack.initListeners = function(){
 
-    // attach event listener to channels UI
     $('#default_channel').click(slack.setDefaultChannel);
     $('#channels').change(function(e){
       $('.fa-check').remove();
-    })
+    });
 
   }
   
+
+  // gets Channels cached in DB (not from Slack API)
   slack.getChannels = function(){
   	
   	var html, default_channel;
     
     $.get('api/slack/channels', function(d){
-
-      console.log(d);
     	
       default_channel = d.default_channel;
 
     	html = "";
 
-      // select channels from response
+      // select channels from response and builds new HTML string
     	d.channels.forEach(function(d){
         
-        if(d.id === default_channel){
+        if(d.id === default_channel){  // sets the chosen default channel as selected in the UI
           html += `<option value=${d.id} selected>${titleCase(d.name)}</option>`
         } else {
           html += `<option value=${d.id}>${titleCase(d.name)}</option>`
         }
     		
     	});
+
+      // inserts HTML string into DOM
     	$('#channels').html(html);
     })
   }

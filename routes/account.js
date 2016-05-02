@@ -30,7 +30,7 @@ var router = express.Router();
 
 
 router.use(function(req, res, next){
-	next();
+  next();
 })
 
 
@@ -38,28 +38,22 @@ router.use(function(req, res, next){
 
 
 router.get('/', function(req, res){
-
-  // if Database connection is not open DB.init
-  if(Database.connection.readyState !== 1){
-    Database.init();
-  }
-
-  // redirect if not logged in
-  
   if(!req.user){
     res.redirect('/login');
   } else {
-  
+    // if Database connection is not open DB.init
+    if(Database.connection.readyState !== 1){
+      Database.init();
+    }
 
-    // look for an existing token
+   // look for an existing token
     OauthTokens.where('user_id', req.user.id).then(function(d){
 
       // @param Oauth {} -  describes auth states //
-      
       var Oauth = {
         hs : false,
         slack : false
-      }
+      };
 
       // @param row {} - DB response if any //
       var row = d[0];
@@ -74,9 +68,8 @@ router.get('/', function(req, res){
 
       res.render('pages/account', {title : "Accounts | LeadNotify", user : req.user, Oauth : Oauth});
 
-    })
-
-  } 
+    });
+  }
 })
 
 /*

@@ -29,7 +29,6 @@ var OauthTokens = require('../database/models/OauthTokens');
 //    - -   REQUIRED METHODS  - -     //
 
 var Oauth = require('../classes/slack_utils').Oauth;
-var insertToken = require('../classes/slack_utils').insertToken;
 
 
 //    - -   INIT ROUTER  - -     //
@@ -87,22 +86,16 @@ router.get('/', function(req, res){
     res.redirect('/login');
   } else {
 
-
-      // if state is passed as a param in GET request - make exchange for Access Token
-      if(req.query.state){
-        OauthTokens.where({ "user_id" : req.user.id }).then(function (d) {
-          Oauth(d, req.query, insertToken);
-        });
-      }
-    // TO-DO - error handling
-      // confirm state param in res matches DB
-
+    // if state is passed as a param in GET request - make exchange for Access Token
+    if(req.query.state){
+      OauthTokens.where({ "user_id" : req.user.id }).then(function (d) {
+        Oauth(d, req.query);
+      });
     }
 
     res.redirect('/account');
     res.end();
-      
-  //}
+  }
   
 });
 
