@@ -117,7 +117,9 @@ function formatContactProperties(d, id){
     }
   });
   upsertObj.properties = properties;
-  upsertObj.property_group = property_group;
+  upsertObj.property_group = property_group.filter( function( item, index, inputArray ) {
+    return inputArray.indexOf(item) == index;
+  });;
   upsertContactProperties(upsertObj, id);
 }
 
