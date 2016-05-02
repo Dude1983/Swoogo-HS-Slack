@@ -25,6 +25,7 @@ module.exports.getToken = getToken;
 module.exports.insertToken = insertToken;
 module.exports.authTest = authTest;
 module.exports.listChannels = listChannels;
+module.exports.postMessage = postMessage;
 
 
 //    - -   ENV VARIABLES   - -     //
