@@ -10,6 +10,9 @@
 
     // initiates all on page event listeners related to slack.js
     slack.initListeners();
+
+    // inserts HubSpot properties into UI
+    hubspot.getProperties();
   }
 
   if(path === '/account'){

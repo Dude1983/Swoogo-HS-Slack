@@ -22,6 +22,7 @@ var passport = require('passport');
 var Database = require('../../database/db');
 var User = require('../../database/models/user');
 var OauthTokens = require('../../database/models/OauthTokens');
+var hubspotMetaData = require('../../database/models/hubspotMetaData');
 
 
 //    - -   REQUIRED METHODS  - -     //
@@ -50,10 +51,24 @@ router.get('/', function(req, res){
     res.redirect('/login');
   } else {
   
-    return;
-  
+    res.end();
   }
-})
+});
+
+router.get('/properties', function(req, res){
+  if(!req.user){
+    res.redirect('/login');
+  } else {
+    hubspotMetaData.where({'user_id' : req.user.id}).then(function(d){
+      res.status(200).send(
+        {
+          properties : d[0].properties,
+          selected_properties : d[0].selected_properties
+        });
+      res.end();
+    });
+  }
+});
 
 /*
  *    - -   POST REQUESTS     - -     *//*

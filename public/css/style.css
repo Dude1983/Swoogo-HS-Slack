@@ -149,6 +149,17 @@ form input{
 	margin-top: 10px;
 }
 
+.property_group {
+    position: relative;
+}
+.property_group label {
+  position: absolute;
+  top: 8px;
+  left: 60px;
+  color: #555;
+  font-weight: 100;
+}
+
 .info::after{
   content: "\f05a";
   font-family: FontAwesome;

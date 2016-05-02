@@ -103,7 +103,10 @@ function getContactProperties(accessToken, id){
 
 function formatContactProperties(d, id){
   var properties = [];
+  var property_group = [];
+  var upsertObj = {};
   d.forEach(function(d){
+    property_group.push(d.groupName);
     if(!d.hidden){
       var prop = {
         name : d.name,
@@ -113,11 +116,11 @@ function formatContactProperties(d, id){
       properties.push(prop);
     }
   });
-  upsertContactProperties(properties, id);
+  upsertObj.properties = properties;
+  upsertObj.property_group = property_group;
+  upsertContactProperties(upsertObj, id);
 }
 
 function upsertContactProperties(d, id){
-  Database.upsert(hubspotMetaData, {
-    properties : d
-  }, id);
+  Database.upsert(hubspotMetaData, d, id);
 }

@@ -17,33 +17,32 @@
 
   // gets Channels cached in DB (not from Slack API)
   slack.getChannels = function(){
-  	
-  	var html, default_channel;
-    
     $.get('api/slack/channels', function(d){
-    	
-      default_channel = d.default_channel;
+    	insertChannels(d);
+    });
+  }
 
-    	html = "";
+  // inserts channels into UI
+  insertChannels = function(d) {
 
-      // select channels from response and builds new HTML string
-    	d.channels.forEach(function(d){
-        
-        if(d.id === default_channel){  // sets the chosen default channel as selected in the UI
-          html += `<option value=${d.id} selected>${titleCase(d.name)}</option>`
-        } else {
-          html += `<option value=${d.id}>${titleCase(d.name)}</option>`
-        }
-    		
-    	});
+    var html = "";
 
-      // inserts HTML string into DOM
-    	$('#channels').html(html);
-    })
+    d.channels.forEach(function(d){
+      
+      if(d.id === d.default_channel){  // sets the chosen default channel as selected in the UI
+        html += `<option value=${d.id} selected>${firstToUpper(d.name)}</option>`
+      } else {
+        html += `<option value=${d.id}>${firstToUpper(d.name)}</option>`
+      }
+      
+    });
+
+    // inserts HTML string into DOM
+    $('#channels').html(html);
   }
 
   
-
+  // caches selected channel as default
   slack.setDefaultChannel = function(){
     
     // init spinner
@@ -65,13 +64,14 @@
     })
   }
 
+  // gets selected channel
   getDefaultChannel = function(){
     // return value attr of selected option
     return $('#channels')[0].selectedOptions[0].value;
-
   }
 
-  titleCase = function(string) { 
+  // first char in each word to Upper
+  firstToUpper = function(string) { 
     return string.charAt(0).toUpperCase() + string.slice(1); 
   }
 
