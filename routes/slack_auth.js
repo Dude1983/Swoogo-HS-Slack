@@ -114,21 +114,14 @@ router.post('/', function(req, res){
     var auth_state = uuid.v4();
 
     // upsert SLACK Oauth params
-    OauthTokens.where()
-      .update({ "user_id" : req.user.id }, 
-        { $set : 
-          {
-            slack_access : {
-              state : auth_state,
-              code : null
-            }
-          }
-        }, { upsert : true },
-        function(err){
-          if(err){
-            console.log(err);
-          }
-        });
+    Database.upsert(OauthTokens, 
+      {
+        slack_access : {
+          state : auth_state,
+          code : null
+        }
+      }, 
+      req.user.id);
  
     res.redirect(auth_uri + "&state=" + auth_state);
     res.end();
@@ -138,19 +131,13 @@ router.post('/', function(req, res){
   if(req.body.slackDisconnect){
 
     // update Oauth Params
-    OauthTokens.update({'user_id' : req.user.id},
-      { $set :
-        {
-          slack_access : {
-            code : null,
-            state : null
-          }
+    Database.upsert(OauthTokens,
+      {
+        slack_access : {
+          code : null,
+          state : null
         }
-      }, function(err){
-          if(err) throw err;
-          res.redirect('account');
-          res.end();
-    })
+      }, req.user.id);
   }
 
   

@@ -84,7 +84,7 @@ function Oauth (row, req){
         Database.upsert(OauthTokens, 
         {
           slack_access : {
-            access_token : d.access_token,
+            access_token : body.access_token,
             scope : body.scope,
             user_id : row[0].user_id,
             team_name : body.team_name,
