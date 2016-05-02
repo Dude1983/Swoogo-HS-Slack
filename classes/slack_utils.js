@@ -20,6 +20,9 @@ var messageMetaData = require('../database/models/messageMetaData');
 var slackMetaData = require('../database/models/slackMetaData');
 
 
+Database = Database();
+
+
 //    - -   EXPORTS     - -     //
 
 module.exports.Oauth = Oauth;
