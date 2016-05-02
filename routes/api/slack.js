@@ -71,7 +71,7 @@ router.get('/channels', function(req, res){
 /*
  *    - -   POST REQUESTS     - -     *//*
  */
-
+/*
 router.post('/channels/get', function(req, res){
 
   // after Access Token is received get channel list from Slack
@@ -79,7 +79,7 @@ router.post('/channels/get', function(req, res){
     res.end();
 
 });
-
+*/
 // Sets the default channel
 router.post('/channels/set', function(req, res){
 

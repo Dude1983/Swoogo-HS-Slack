@@ -82,7 +82,9 @@ function Oauth (row, req, insertToken){
       }
     })
 
-    
+
+    // upsert channels list
+    getToken(req.user.id, listChannels);
     /*
 
     var options = {
@@ -119,7 +121,7 @@ function getToken (id, cb){
   })
 }
 
-function getChannels (token, id) {
+function listChannels (token, id) {
 
   var params = querystring.stringify({
       token : token
