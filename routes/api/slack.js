@@ -72,13 +72,11 @@ router.get('/channels', function(req, res){
  *    - -   POST REQUESTS     - -     *//*
  */
 
-router.post('/', function(req, res){
+router.post('/channels/get', function(req, res){
 
   // after Access Token is received get channel list from Slack
-  if(req.body.get_channels){
     res.status(200).send(slackUtils.getToken(req.user.id, slackUtils.listChannels));
     res.end();
-  }
 
 });
 

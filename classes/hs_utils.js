@@ -13,7 +13,9 @@ var fs = require('fs');
  *  @param Oauth {} mongoDb schema for HS Oauth tokens
  */
 
+var Database = require('../database/db');
 var OauthTokens = require('../database/models/OauthTokens');
+var hubspotMetaData = require('../database/models/hubspotMetaData');
 
 
 //    - -   EXPORTS     - -     //
@@ -82,24 +84,17 @@ function refresh(refreshToken, id, OauthTokens, cb){
     
     var responseBody = JSON.parse(d);
 
-
     // execute callback
     cb(responseBody.access_token);
 
-
-
-      // update hsToken document in MongoDb
-      OauthTokens.update({ "user_id" : id }, 
-        { $set : {
-          hs_access : {
-            access_token: responseBody.access_token,
-            refresh_token: responseBody.refresh_token,
-            refreshed : new Date()
-          }
+    Database.upsert(OauthTokens,
+      {
+        hs_access : {
+          access_token: responseBody.access_token,
+          refresh_token: responseBody.refresh_token,
+          refreshed : new Date()
         }
-      },function(err){
-        if(err) throw err;
-      });
+      }, id);
 
       
   })
@@ -118,20 +113,8 @@ function getContactProperties(accessToken){
     
     var responseBody = JSON.parse(d);
 
-    //fs.writeFile('../hs_contact_properties.json', d, 'utf8');
 
-    console.log(responseBody);
-    /*mongoose.models.slackMetaData.update({ "user_id" :  id},
-      { $set : 
-        {
-          channels : JSON.parse(d).channels
-        }
-      }, { upsert : true },
-    function(err){
-      if(err){
-        console.log(err);
-      } 
-    })*/
+    
 
   })
 

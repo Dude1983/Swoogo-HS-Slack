@@ -67,7 +67,7 @@ router.post('/', function(req, res){
   var properties = req.body.properties;
   
 
-  slackUtils.postMessage({auth : authHeader, properties : properties});
+  slackUtils.postMessage({user_id : req.user.id, auth : authHeader, properties : properties});
   res.end();
 });
 
