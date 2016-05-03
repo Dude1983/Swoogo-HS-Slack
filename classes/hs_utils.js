@@ -111,7 +111,8 @@ function formatContactProperties(d, id){
       var prop = {
         name : d.name,
         label : d.label,
-        groupName : d.groupName
+        groupName : d.groupName,
+        default_selection : false
       };
       properties.push(prop);
     }

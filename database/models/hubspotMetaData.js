@@ -6,8 +6,7 @@ var mongoose = require('mongoose'),
 var hubspotMetaData = new Schema({
 	user_id : String,
 	property_group : Array,
-	properties : Array,
-	selected_properties : Array
+	properties : Array
 });	
 
 

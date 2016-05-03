@@ -124,6 +124,7 @@ router.post('/', function(req, res){
         refreshed : null
       }
     }, req.user.id);
+    res.status(200).end();
   }
 });
 

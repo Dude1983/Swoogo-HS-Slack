@@ -148,11 +148,21 @@ form input{
 .form-btn{
 	margin-top: 10px;
 }
-
-.property_group {
-    position: relative;
+#property_form{
+  max-width: 750px;
 }
-.property_group label {
+.property_group{
+  background-color: transparent;
+  border-radius: 4px;
+  border: 1px solid #bbb;
+  margin: 5px auto;
+}
+.property_div {
+    position: relative;
+    width: 50%;
+    display: inline-block;
+}
+.property_div label {
   position: absolute;
   top: 8px;
   left: 60px;
@@ -160,6 +170,22 @@ form input{
   font-weight: 100;
 }
 
+#all_properties h5 {
+  position: relative;
+  margin: 5px 35px;
+  color: #555;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 25px;
+  letter-spacing: .1rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-align: left;
+}
+
+#default_properties {
+    margin-top: 45px;
+}
 .info::after{
   content: "\f05a";
   font-family: FontAwesome;

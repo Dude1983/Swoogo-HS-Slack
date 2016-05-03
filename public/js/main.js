@@ -13,6 +13,8 @@
 
     // inserts HubSpot properties into UI
     hubspot.getProperties();
+
+    hubspot.initListeners();
   }
 
   if(path === '/account'){
