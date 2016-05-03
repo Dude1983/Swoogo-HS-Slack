@@ -124,7 +124,8 @@ router.post('/', function(req, res){
         refreshed : null
       }
     }, req.user.id);
-    res.status(200).redirect('account').end();
+    res.redirect('/account');
+    res.end();
   }
 });
 
