@@ -59,7 +59,7 @@ router.get('/properties', function(req, res){
     hubspotMetaData.where({'user_id' : req.user.id}).then(function(d){
       res.status(200).send(
         {
-          _id : ObjectId.auto,
+          _id : ObjectId.auto(true),
           property_group : d[0].property_group,
           properties : d[0].properties,
           selected_properties : d[0].selected_properties
