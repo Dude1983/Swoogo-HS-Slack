@@ -71,7 +71,6 @@ Database.prototype.init = function  (){
 
 
 Database.prototype.upsert = function (row, data, id){
-  
   row.update({ "user_id" :  id}, 
     { $set : data },
     { upsert : true },

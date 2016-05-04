@@ -102,19 +102,22 @@ function getContactProperties(accessToken, id){
 }
 
 function formatContactProperties(d, id){
-  var properties = [];
+  var properties = {};
   var property_group = [];
   var upsertObj = {};
   d.forEach(function(d){
     property_group.push(d.groupName);
     if(!d.hidden){
-      var prop = {
+      properties[d.name] = {
         name : d.name,
         label : d.label,
         groupName : d.groupName,
-        default_selection : false
+        default_selection : (function(name){
+          if(name === 'firstname' || name === 'lastname' || name === 'email' || name === 'phone'){
+            return true;
+          } return false;
+        })(d.name)
       };
-      properties.push(prop);
     }
   });
   upsertObj.properties = properties;
