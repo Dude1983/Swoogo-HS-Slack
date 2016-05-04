@@ -18,18 +18,19 @@
   // gets Channels cached in DB (not from Slack API)
   slack.getChannels = function(){
     $.get('api/slack/channels', function(d){
+      console.log(d);
     	insertChannels(d);
     });
   }
 
   // inserts channels into UI
-  insertChannels = function(d) {
+  insertChannels = function(data) {
 
     var html = "";
 
-    d.channels.forEach(function(d){
-      
-      if(d.id === d.default_channel){  // sets the chosen default channel as selected in the UI
+    data.channels.forEach(function(d){
+      //console.log(d);
+      if(d.id === data.default_channel){  // sets the chosen default channel as selected in the UI
         html += `<option value=${d.id} selected>${firstToUpper(d.name)}</option>`
       } else {
         html += `<option value=${d.id}>${firstToUpper(d.name)}</option>`

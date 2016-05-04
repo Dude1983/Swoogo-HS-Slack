@@ -16,6 +16,7 @@ var fs = require('fs');
 var Database = require('../database/db')();
 var OauthTokens = require('../database/models/OauthTokens');
 var hubspotMetaData = require('../database/models/hubspotMetaData');
+var messageMetaData = require('../database/models/messageMetaData');
 
 
 //    - -   EXPORTS     - -     //
@@ -105,6 +106,8 @@ function formatContactProperties(d, id){
   var properties = {};
   var property_group = [];
   var upsertObj = {};
+  var selected_properties = []
+  
   d.forEach(function(d){
     property_group.push(d.groupName);
     if(!d.hidden){
@@ -114,19 +117,23 @@ function formatContactProperties(d, id){
         groupName : d.groupName,
         default_selection : (function(name){
           if(name === 'firstname' || name === 'lastname' || name === 'email' || name === 'phone'){
+            selected_properties.push(name);
             return true;
           } return false;
         })(d.name)
       };
     }
   });
+
   upsertObj.properties = properties;
+  
   upsertObj.property_group = property_group.filter( function( item, index, inputArray ) {
     return inputArray.indexOf(item) == index;
-  });;
-  upsertContactProperties(upsertObj, id);
+  });
+
+
+
+  Database.upsert(hubspotMetaData, upsertObj, id);
+  Database.upsert(messageMetaData, selected_properties, id);
 }
 
-function upsertContactProperties(d, id){
-  Database.upsert(hubspotMetaData, d, id);
-}

@@ -41,8 +41,7 @@
       html += `<input type="checkbox" name=${properties[d].name}>`;
       html +=`<label>${properties[d].label}</label>`;
       html += `</div>`;
-      if( properties[d].default_selection === 'true' ){
-        console.log(properties[d]);
+      if( properties[d].default_selection === true || properties[d].default_selection === 'true' ){
         $('#default_properties').append(html);
       }
       $('#'+properties[d].groupName).append(html);

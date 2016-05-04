@@ -87,16 +87,15 @@ router.post('/', function(req, res){
 
 router.post('/properties/default', function(req, res){
 
+  console.log(req.body);
+
   req.body.default_properties.forEach(function(d){
       
       name = `properties.${d.name}.default_selection`;
       data = {};
       data[name] = d.default_selection;
 
-      console.log(data);
-
       Database.upsert(hubspotMetaData, data, req.user.id);
-
 
   });
   
