@@ -8,11 +8,13 @@
     $('#properties_form').submit(function(e){
       e.preventDefault();
 
-      defaultProperties = {};
+      defaultProperties = [];
       [].slice.call(e.target).forEach(function(d){
         if($(d).attr('checked')){
-          defaultProperties.name = d.name;
-          defaultProperties.default_selection = true;
+          defaultProperties.push({
+            name : d.name,
+            default_selection : true
+          });
         }
       })
       upsertDefaultProperties(defaultProperties);
@@ -52,9 +54,12 @@
   }
 
   upsertDefaultProperties = function(data){
+
+    console.log(data);
     // init spinner
-    $('#default_properties').after('<i class="fa fa-spinner fa-pulse fa-2x fa-fw margin-bottom"></i>');
-    $.post('api/hubspot/properties/default', data, function(err, res, d){
+    $('.button-wrapper').append('<i class="fa fa-spinner fa-pulse fa-2x fa-fw margin-bottom"></i>');
+    
+    $.post('api/hubspot/properties/default', { default_properties : data }, function(err, res, d){
       if (err) throw err;
 
       if(d.statusText === 'OK'){
@@ -63,7 +68,7 @@
         $('.fa-spinner').remove();
 
         // success -> check
-        $('#default_properties').after('<i class="fa fa-check fa-2x" aria-hidden="true"></i>');
+        $('.button-wrapper').append('<i class="fa fa-check fa-2x" aria-hidden="true"></i>');
       }
     });
   }

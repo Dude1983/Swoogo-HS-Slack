@@ -183,8 +183,9 @@ form input{
   text-align: left;
 }
 
-#default_properties {
-    margin-top: 45px;
+.button-wrapper{
+  position: relative;
+  margin-top: 50px;
 }
 .info::after{
   content: "\f05a";

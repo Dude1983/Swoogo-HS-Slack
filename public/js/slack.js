@@ -61,7 +61,7 @@
         // success -> check
         $('#default_channel').after('<i class="fa fa-check fa-2x" aria-hidden="true"></i>');
       }
-    })
+    });
   }
 
   // gets selected channel
