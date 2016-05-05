@@ -1,8 +1,5 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
-    passportLocalMongoose = require('passport-local-mongoose');
-
-
 
 var messageMetaData = new Schema({
 	user_id : String,
@@ -11,11 +8,8 @@ var messageMetaData = new Schema({
 		password : String
 	},
 	default_channel : String,
-	selected_properties : Array
+	selected_properties : Array,
+	isOwned : Boolean
 });	
-
-
-messageMetaData.plugin(passportLocalMongoose);
-
 
 module.exports = mongoose.model('messageMetaData', messageMetaData);

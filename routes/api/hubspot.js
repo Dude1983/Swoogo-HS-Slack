@@ -53,6 +53,7 @@ router.get('/', function(req, res){
   }
 });
 
+// returns cached properties from DB
 router.get('/properties', function(req, res){
   if(!req.user){
     res.redirect('/login');
@@ -73,7 +74,8 @@ router.get('/properties', function(req, res){
  *    - -   POST REQUESTS     - -     *//*
  */
 
-router.post('/', function(req, res){
+router.post('/lead', function(req, res){
+  
   res.status(200);
 
   var authHeader = new Buffer(req.headers.authorization.toString().split(' ')[1], 'base64').toString('ascii');
@@ -85,12 +87,8 @@ router.post('/', function(req, res){
   res.end();
 });
 
-
+// updates cached default properties
 router.post('/properties/default', function(req, res){
-/*
-  $pull = {};
-  $pull.selected_properties = {};
-  $pull.selected_properties.$in = [];*/
 
   req.body.default_properties.forEach(function(d){
       
@@ -106,7 +104,7 @@ router.post('/properties/default', function(req, res){
             if(err) console.log(err);
           });
       } else {
-        //$pull.selected_properties.$in.push(d.name);
+
         messageMetaData.update({user_id : req.user.id},
           {
             $pull : { selected_properties : d.name }
@@ -118,14 +116,6 @@ router.post('/properties/default', function(req, res){
       Database.upsert(hubspotMetaData, data, req.user.id);
 
   });
-/*
-  messageMetaData.update({user_id : req.user.id},
-    {
-      $pull
-    }, function(err){
-      if(err)console.log(err);
-    });*/
-
     
   res.status(200).end();
 });
