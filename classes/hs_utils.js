@@ -117,7 +117,12 @@ function formatContactProperties(d, id){
   var properties = {};
   var property_group = [];
   var upsertObj = {};
-  var selected_properties = []
+  var selected_properties = [
+    'firstname',
+    'lastname',
+    'email',
+    'phone'
+  ]
   
   d.forEach(function(d){
     property_group.push(d.groupName);
@@ -128,7 +133,6 @@ function formatContactProperties(d, id){
         groupName : d.groupName,
         default_selection : (function(name){
           if(name === 'firstname' || name === 'lastname' || name === 'email' || name === 'phone'){
-            selected_properties.push(name);
             return true;
           } return false;
         })(d.name)
