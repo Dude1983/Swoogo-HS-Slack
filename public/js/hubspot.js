@@ -4,6 +4,7 @@
 	
   hubspot = window.hubspot = {};
 
+  // initiate event listeners
 	hubspot.initListeners = function(){
     
     // form submission
@@ -14,12 +15,14 @@
 
   }
 
+  // get cached properties from DB
   hubspot.getProperties = function(){
 		$.get('api/hubspot/properties', function(res){
       insertProperties(res);
 		});
 	}
 
+  // builds properties HTML and inserts
   insertProperties = function(res){
 
     var html, properties;
@@ -54,9 +57,11 @@
 
   }
 
+  // gets updates to the default property groups
   getDefaultChanges = function(){
     defaultProperties = [];
 
+      // looks for additions to defaults in all_properties group
       $('#all_properties input').each(function(i,d){
         if($(d).attr('checked')){
           defaultProperties.push({
@@ -64,7 +69,9 @@
             default_selection : true
           });
         }
-      })
+      });
+
+      // looks for removals from defaults in default_properties grioup
       $('#default_properties input').each(function(i, d){
         if(!($(d).attr('checked'))){
           defaultProperties.push({
@@ -77,11 +84,13 @@
       upsertDefaultProperties(defaultProperties);
   }
 
+  // sends updates to DB
   upsertDefaultProperties = function(data){
 
-    // init spinner
+    // init spinner 
     $('.button-wrapper').append('<i class="fa fa-spinner fa-pulse fa-2x fa-fw margin-bottom"></i>');
     
+    // POST updates
     $.post('api/hubspot/properties/default', { default_properties : data }, function(err, res, d){
       if (err) throw err;
 
@@ -96,6 +105,8 @@
     });
   }
 
+
+  // shows/hides modals in all_properties group
   showHidePropertyGroups =  function(){
 
     // show and select all default properties
@@ -104,12 +115,12 @@
       $(d).children('input').attr('checked' , true);
     });
 
-    //
+    // removes checked attr from default properties group
     $('#default_properties input').click(function(d){
       $(this).removeAttr('checked');
     });
 
-    // click listener for expanding property groups
+    // click listener for showing/hiding property groups
     $('#all_properties h5').click(function(e){
       $(e.target).parent().children().each(function(i, d){
         if(d.tagName !== 'H5'){

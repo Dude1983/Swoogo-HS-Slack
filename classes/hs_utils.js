@@ -37,14 +37,14 @@ var TTL = process.env["TTL"];
 //    - -   METHODS     - -   //
 
 
+// gets cached refresh token
 function get_token (id, cb) {
-
 
   OauthTokens.where("user_id", id).then(function(d){
 
-    var dateNow = new Date();
+/*    var dateNow = new Date();
     var refreshedTime = new Date(d[0].hs_access.refreshed);
-    var accessToken =  d[0].hs_access.access_token;
+    var accessToken =  d[0].hs_access.access_token; */
     var refreshToken = d[0].hs_access.refresh_token;
 
     refresh(refreshToken, id, OauthTokens, cb);
@@ -52,15 +52,18 @@ function get_token (id, cb) {
 
 }
 
+
+// gets a new access token
 function refresh(refreshToken, id, OauthTokens, cb){
 
+  // post body
   var body =  querystring.stringify({
     refresh_token: refreshToken,
     client_id :process.env["HS_CLIENT_ID"],
     grant_type : "refresh_token"
   });
 
-  // refresh access token
+  // POST to HS auth api
   request({
     method: "POST",
     uri : "https://api.hubapi.com/auth/v1/refresh",
@@ -74,12 +77,13 @@ function refresh(refreshToken, id, OauthTokens, cb){
       // execute callback
       cb(responseBody.access_token, id);
 
+      // inserts new refresh token
       Database.upsert(OauthTokens,
         {
           hs_access : {
-            access_token: responseBody.access_token,
+            //access_token: responseBody.access_token,
             refresh_token: responseBody.refresh_token,
-            refreshed : new Date()
+            //refreshed : new Date()
           }
         }, 
       id);
@@ -88,13 +92,17 @@ function refresh(refreshToken, id, OauthTokens, cb){
 
 }
 
+
+// lists all HubSpot Contact properties
 function getContactProperties(accessToken, id){
+
 
   options = {
     method : "GET",
     uri : "https://api.hubapi.com/contacts/v2/properties?access_token=" + accessToken
   }
 
+  // GET request
   request(options, function(err, res, d){
     if(err) console.log(err);
     formatContactProperties(JSON.parse(d), id);
@@ -102,7 +110,10 @@ function getContactProperties(accessToken, id){
 
 }
 
+
+
 function formatContactProperties(d, id){
+  
   var properties = {};
   var property_group = [];
   var upsertObj = {};
@@ -127,12 +138,13 @@ function formatContactProperties(d, id){
 
   upsertObj.properties = properties;
   
+  // removes duplicate entries from properties array
   upsertObj.property_group = property_group.filter( function( item, index, inputArray ) {
     return inputArray.indexOf(item) == index;
   });
 
 
-
+  // updates MetaData tables
   Database.upsert(hubspotMetaData, upsertObj, id);
   Database.upsert(messageMetaData, selected_properties, id);
 }
