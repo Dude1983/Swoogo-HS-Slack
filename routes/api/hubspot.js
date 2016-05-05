@@ -23,6 +23,7 @@ var Database = require('../../database/db')();
 var User = require('../../database/models/user');
 var OauthTokens = require('../../database/models/OauthTokens');
 var hubspotMetaData = require('../../database/models/hubspotMetaData');
+var messageMetaData = require('../../database/models/messageMetaData');
 
 
 //    - -   REQUIRED METHODS  - -     //
@@ -86,8 +87,10 @@ router.post('/', function(req, res){
 
 
 router.post('/properties/default', function(req, res){
-
-  console.log(req.body);
+/*
+  $pull = {};
+  $pull.selected_properties = {};
+  $pull.selected_properties.$in = [];*/
 
   req.body.default_properties.forEach(function(d){
       
@@ -95,11 +98,36 @@ router.post('/properties/default', function(req, res){
       data = {};
       data[name] = d.default_selection;
 
+      if(d.default_selection === true || d.default_selection === 'true'){
+        messageMetaData.update({user_id : req.user.id},
+          {
+            $push : { selected_properties : d.name }
+          }, function(err){
+            if(err) console.log(err);
+          });
+      } else {
+        //$pull.selected_properties.$in.push(d.name);
+        messageMetaData.update({user_id : req.user.id},
+          {
+            $pull : { selected_properties : d.name }
+          }, function(err){
+            if(err)console.log(err);
+          });
+      }
+      
       Database.upsert(hubspotMetaData, data, req.user.id);
 
   });
-  
-    res.status(200).end();
+/*
+  messageMetaData.update({user_id : req.user.id},
+    {
+      $pull
+    }, function(err){
+      if(err)console.log(err);
+    });*/
+
+    
+  res.status(200).end();
 });
 
 module.exports = router;

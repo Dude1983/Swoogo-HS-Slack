@@ -41,10 +41,13 @@
       html += `<input type="checkbox" name=${properties[d].name}>`;
       html +=`<label>${properties[d].label}</label>`;
       html += `</div>`;
+      
+      // if property is selected show in default div else show in options
       if( properties[d].default_selection === true || properties[d].default_selection === 'true' ){
         $('#default_properties').append(html);
+      } else {
+        $('#'+properties[d].groupName).append(html);
       }
-      $('#'+properties[d].groupName).append(html);
     };   
     
     showHidePropertyGroups();

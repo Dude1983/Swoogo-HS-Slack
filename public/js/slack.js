@@ -18,7 +18,6 @@
   // gets Channels cached in DB (not from Slack API)
   slack.getChannels = function(){
     $.get('api/slack/channels', function(d){
-      console.log(d);
     	insertChannels(d);
     });
   }
