@@ -145,5 +145,6 @@ function formatContactProperties(d, id){
 
   // updates MetaData tables
   Database.upsert(hubspotMetaData, upsertObj, id);
+  Database.upsert(messageMetaData, { selected_properties : ['firstname', 'lastname', 'email', 'phone']}, id);
 }
 
