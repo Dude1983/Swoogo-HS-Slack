@@ -104,9 +104,9 @@ function Oauth (row, req){
  *  gets cached access token from DB and executes a callback
  */ 
 
-function getToken (id, cb){
+function getToken (id, cb, data){
   OauthTokens.where({"user_id" : id}).then(function(d){
-    cb(d[0].slack_access.access_token, id);
+    cb(d[0].slack_access.access_token, id, data);
   });
 }
 
@@ -146,8 +146,6 @@ function getMessageMetaData(data){
 }
 
 
-function postMessage(data){
-  
-
-
+function postMessage(token, id, message){
+  console.log(token, id, message);
 }

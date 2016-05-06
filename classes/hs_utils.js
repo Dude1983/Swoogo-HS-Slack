@@ -14,6 +14,7 @@ var fs = require('fs');
  */
 
 var Database = require('../database/db')();
+var slackUtils = require('./slack_utils');
 var OauthTokens = require('../database/models/OauthTokens');
 var hubspotMetaData = require('../database/models/hubspotMetaData');
 var messageMetaData = require('../database/models/messageMetaData');
@@ -148,13 +149,15 @@ function formatContactProperties(d, id){
   Database.upsert(messageMetaData, { selected_properties : ['firstname', 'lastname', 'email', 'phone']}, id);
 }
 
-function formatNewLeadPostBody (metaData, lead){
-  var message;
+function formatNewLeadPostBody (id, metaData, lead){
+  var text, message;
   message = {};
+  message.channel = metaData.default_channel;
+  text = {};
   metaData.selected_properties.forEach(function(d){
     if(lead[d]){
-      message[d] = lead[d].value;
+      text[d] = lead[d].value;
     }
   });
-  console.log(message);
+  slackUtils.getToken(id, slackUtils.postMessage, message);
 }
