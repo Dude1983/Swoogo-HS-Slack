@@ -90,7 +90,7 @@ router.post('/lead', function(req, res){
       res.status(401).send("Unauthorized").end();
     } else {
       org = d[0].organization;
-      hsUtils.formatNewLeadPostBody(req.user.id, d[0], response);
+      hsUtils.formatNewLeadPostBody(d[0].user_id, d[0], response);
       res.status(200).end();
     }
   });

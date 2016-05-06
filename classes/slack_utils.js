@@ -29,7 +29,6 @@ module.exports.Oauth = Oauth;
 module.exports.getToken = getToken;
 module.exports.listChannels = listChannels;
 module.exports.postMessage = postMessage;
-module.exports.getMessageMetaData = getMessageMetaData;
 
 
 //    - -   ENV VARIABLES   - -     //
@@ -137,14 +136,6 @@ function listChannels (token, id) {
     }
   );
 }
-
-function getMessageMetaData(data){
-  messageMetaData.where({'user_id' : data.user_id})
-    .then(function(d){
-      //if()
-    })
-}
-
 
 function postMessage(token, id, message){
   console.log(token, id, message);
