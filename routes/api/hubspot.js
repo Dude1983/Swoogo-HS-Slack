@@ -86,7 +86,7 @@ router.post('/lead', function(req, res){
 
   
 
-  messageMetaData.where({user_id ; req.user.id}).then(function(d){
+  messageMetaData.where({user_id : req.user.id}).then(function(d){
     row = d[0];
 
     console.log(row.organization);
@@ -97,7 +97,7 @@ router.post('/lead', function(req, res){
   
 
   //slackUtils.postMessage({user_id : req.user.id, auth : authHeader, properties : properties});
-  
+  res.status(200);
   res.end();
 });
 
