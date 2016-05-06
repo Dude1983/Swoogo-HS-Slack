@@ -88,6 +88,7 @@ router.post('/lead', function(req, res){
     org = d[0].organization;
 
     console.log(org.username, orgId, org.password, orgSecret);
+    res.status(200).end();
     if(org.username !== orgId && org.password !== orgSecret){
       res.status(401).end();
     } else {
