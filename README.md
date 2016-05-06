@@ -116,3 +116,12 @@ Session info -
   - Bot user - https://api.slack.com/bot-users
   - Post message - https://api.slack.com/methods/chat.postMessage
   - List channels - https://api.slack.com/methods/channels.list
+
+
+TO-DO
+
+
+add validation to registration page
+redirect to account page after registration
+add default selected properties
+check all auth

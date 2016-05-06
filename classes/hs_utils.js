@@ -117,12 +117,7 @@ function formatContactProperties(d, id){
   var properties = {};
   var property_group = [];
   var upsertObj = {};
-  var selected_properties = [
-    'firstname',
-    'lastname',
-    'email',
-    'phone'
-  ]
+
   
   d.forEach(function(d){
     property_group.push(d.groupName);
@@ -150,6 +145,5 @@ function formatContactProperties(d, id){
 
   // updates MetaData tables
   Database.upsert(hubspotMetaData, upsertObj, id);
-  Database.upsert(messageMetaData, selected_properties, id);
 }
 

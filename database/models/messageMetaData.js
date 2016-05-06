@@ -8,7 +8,7 @@ var messageMetaData = new Schema({
 		password : String
 	},
 	default_channel : String,
-	selected_properties : Array,
+	selected_properties : ['firstname', 'lastname', 'email', 'phone'],
 	isOwned : Boolean
 });	
 
