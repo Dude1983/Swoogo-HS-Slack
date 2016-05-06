@@ -85,12 +85,12 @@ router.post('/lead', function(req, res){
   response = req.body.properties;
 
   messageMetaData.find({ 'organization.username' : orgId, 'organization.password' : orgSecret}, function(err, d){
-    console.log(err, d);
+    if(err) console.log(err);
     if(!d.length){
       res.status(401).send("Unauthorized").end();
     } else {
       org = d[0].organization;
-      hsUtils.formatNewLeadPostBody(d[0].selected_properties, response);
+      hsUtils.formatNewLeadPostBody(d[0], response);
       res.status(200).end();
     }
   });

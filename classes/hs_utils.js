@@ -112,8 +112,6 @@ function getContactProperties(accessToken, id){
 
 }
 
-
-
 function formatContactProperties(d, id){
   
   var properties = {};
@@ -150,10 +148,10 @@ function formatContactProperties(d, id){
   Database.upsert(messageMetaData, { selected_properties : ['firstname', 'lastname', 'email', 'phone']}, id);
 }
 
-function formatNewLeadPostBody (selected_properties, lead){
+function formatNewLeadPostBody (metaData, lead){
   var message;
   message = {};
-  selected_properties.forEach(function(d){
+  metaData.selected_properties.forEach(function(d){
     if(lead[d]){
       message[d] = lead[d].value;
     }
