@@ -89,7 +89,7 @@ router.post('/lead', function(req, res){
     if(!d.length){
       res.status(401).end();
     } else {
-      hsUtils.formatNewLeadPostBody()
+      hsUtils.formatNewLeadPostBody(properties);
       res.status(200).end();
     }
   });
