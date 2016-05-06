@@ -28,7 +28,7 @@ Database = Database();
 module.exports.Oauth = Oauth;
 module.exports.getToken = getToken;
 module.exports.listChannels = listChannels;
-//module.exports.postMessage = postMessage;
+module.exports.postMessage = postMessage;
 
 
 //    - -   ENV VARIABLES   - -     //
@@ -137,7 +137,7 @@ function listChannels (token, id) {
   );
 }
 
-(function postMessage(token, id, message){
+function postMessage(token, id, message){
   id = null;
 
   message.token = token;
@@ -158,4 +158,4 @@ function listChannels (token, id) {
     if(err) throw err;
     console.log(d);
   });
-})()
+}
