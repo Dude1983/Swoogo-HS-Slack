@@ -148,6 +148,7 @@ function postMessage(token, id, message){
     body : message
   };
 
+  console.log(options);
   request(options, function(err, res, d){
     if(err) throw err;
     console.log(d);
