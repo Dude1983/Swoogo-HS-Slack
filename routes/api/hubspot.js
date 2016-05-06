@@ -76,11 +76,25 @@ router.get('/properties', function(req, res){
 
 router.post('/lead', function(req, res){
   
-  res.status(200);
+  var authHeader, orgId, orgSecret, properties, row;
 
-  var authHeader = new Buffer(req.headers.authorization.toString().split(' ')[1], 'base64').toString('ascii');
+  authHeader = new Buffer(req.headers.authorization.toString().split(' ')[1], 'base64').toString('ascii');
+  orgId = authHeader.split(':')[0];
+  orgSecret = authHeader.split(':')[1];
 
-  var properties = req.body.properties;
+  console.log(authHeader, orgId, orgSecret);
+  properties = req.body.properties;
+
+  
+
+ /* messageMetaData.where({user_id ; req.user.id}).then(function(d){
+    row = d[0];
+
+    if(row.organization.username )
+
+  });
+*/
+  
   
 
   slackUtils.postMessage({user_id : req.user.id, auth : authHeader, properties : properties});
