@@ -28,7 +28,7 @@ Database = Database();
 module.exports.Oauth = Oauth;
 module.exports.getToken = getToken;
 module.exports.listChannels = listChannels;
-module.exports.postMessage = postMessage;
+//module.exports.postMessage = postMessage;
 
 
 //    - -   ENV VARIABLES   - -     //
@@ -137,7 +137,7 @@ function listChannels (token, id) {
   );
 }
 
-function postMessage(token, id, message){
+(function postMessage(token, id, message){
   id = null;
 
   message.token = token;
@@ -145,12 +145,17 @@ function postMessage(token, id, message){
   var options = {
     uri : 'https://slack.com/api/chat.postMessage',
     method : 'POST',
-    body : message
-  };
+    headers : {
+      'Content-Type' : 'application/x-www-form-urlencoded'
+    }
+  }
 
-  console.log(options);
+  options.body = querystring.stringify(message);
+
+  console.log(options)
+
   request(options, function(err, res, d){
     if(err) throw err;
     console.log(d);
   });
-}
+})()

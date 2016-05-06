@@ -153,10 +153,10 @@ function formatNewLeadPostBody (id, metaData, lead){
   var text, message;
   message = {};
   message.channel = metaData.default_channel;
-  message.text = {};
+  message.text = '';
   metaData.selected_properties.forEach(function(d){
     if(lead[d]){
-      message.text[d] = lead[d].value;
+      message.text += d+' '+lead[d].value;
     }
   });
   slackUtils.getToken(id, slackUtils.postMessage, message);
