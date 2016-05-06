@@ -24,6 +24,8 @@ var messageMetaData = require('../database/models/messageMetaData');
 module.exports.get_token = get_token;
 module.exports.refresh = refresh;
 module.exports.getContactProperties = getContactProperties;
+module.exports.formatNewLeadPostBody = formatNewLeadPostBody;
+
 
 //    - -   ENV VARIABLES   - - //
 /*
@@ -148,3 +150,7 @@ function formatContactProperties(d, id){
   Database.upsert(messageMetaData, { selected_properties : ['firstname', 'lastname', 'email', 'phone']}, id);
 }
 
+function formatNewLeadPostBody (data){
+
+  console.log(data);
+}

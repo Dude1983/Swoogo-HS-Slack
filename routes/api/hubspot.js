@@ -1,5 +1,5 @@
 /*
- *    - -       API FOR SLACK  - -     *//*
+ *    - -       API FOR HUBSPOT RELATED REQs  - -     *//*
  *           
  */
 
@@ -84,21 +84,19 @@ router.post('/lead', function(req, res){
 
   properties = req.body.properties;
 
-  
-
   messageMetaData.where({ 'organization.username' : orgId, 'organization.password' : orgSecret}).then(function(d){
-    row = d[0];
+    org = d[0].organization;
 
-    console.log(row.organization);
+    if(org.username !== orgId && org.password !== orgSecret){
+      res.status(401).end();
+    } else {
+      hsUtils.formatNewLeadPostBody()
+      res.status(200).end();
+    }
+    
 
   });
 
-  
-  
-
-  //slackUtils.postMessage({user_id : req.user.id, auth : authHeader, properties : properties});
-  res.status(200);
-  res.end();
 });
 
 // updates cached default properties
