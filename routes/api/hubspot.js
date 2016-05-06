@@ -85,9 +85,8 @@ router.post('/lead', function(req, res){
   properties = req.body.properties;
 
   messageMetaData.where({ 'organization.username' : orgId, 'organization.password' : orgSecret}).then(function(d){
-    console.log(d);
     org = d[0].organization;
-    if(!d.length){
+    if(d.length === 0){
       res.status(401).end();
     } else {
       hsUtils.formatNewLeadPostBody(properties);
