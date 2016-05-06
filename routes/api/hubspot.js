@@ -87,14 +87,13 @@ router.post('/lead', function(req, res){
   messageMetaData.where({ 'organization.username' : orgId, 'organization.password' : orgSecret}).then(function(d){
     org = d[0].organization;
 
+    console.log(org.username, orgId, org.password, orgSecret);
     if(org.username !== orgId && org.password !== orgSecret){
       res.status(401).end();
     } else {
       hsUtils.formatNewLeadPostBody()
       res.status(200).end();
     }
-    
-
   });
 
 });
