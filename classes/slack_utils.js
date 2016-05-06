@@ -138,5 +138,18 @@ function listChannels (token, id) {
 }
 
 function postMessage(token, id, message){
-  console.log(token, id, message);
+  id = null;
+
+  message.token = token;
+
+  var options = {
+    uri : 'https://slack.com/api/chat.postMessage',
+    method : 'POST',
+    body : message
+  };
+
+  request(options, function(err, res, d){
+    if(err) throw err;
+    console.log(d);
+  });
 }
