@@ -125,3 +125,4 @@ add validation to registration page
 redirect to account page after registration
 add default selected properties
 check all auth
+hash orgSecret in messageMetaData

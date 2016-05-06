@@ -150,7 +150,13 @@ function formatContactProperties(d, id){
   Database.upsert(messageMetaData, { selected_properties : ['firstname', 'lastname', 'email', 'phone']}, id);
 }
 
-function formatNewLeadPostBody (data){
-
-  console.log(data);
+function formatNewLeadPostBody (selected_properties, lead){
+  var message;
+  message = {};
+  selected_properties.forEach(function(d){
+    if(lead[d]){
+      message[d] = lead[d].value;
+    }
+  });
+  console.log(message);
 }
