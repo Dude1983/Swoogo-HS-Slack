@@ -86,7 +86,7 @@ router.post('/lead', function(req, res){
 
   messageMetaData.where({ 'organization.username' : orgId, 'organization.password' : orgSecret}).then(function(d){
     org = d[0].organization;
-    console.log(d.length);
+    console.log(d);
     res.status(200).end();
     if(d.length === 0){
       res.status(401).end();
