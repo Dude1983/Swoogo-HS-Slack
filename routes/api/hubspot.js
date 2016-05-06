@@ -82,22 +82,22 @@ router.post('/lead', function(req, res){
   orgId = authHeader.split(':')[0];
   orgSecret = authHeader.split(':')[1];
 
-  console.log(authHeader, orgId, orgSecret);
   properties = req.body.properties;
 
   
 
- /* messageMetaData.where({user_id ; req.user.id}).then(function(d){
+  messageMetaData.where({user_id ; req.user.id}).then(function(d){
     row = d[0];
 
-    if(row.organization.username )
+    console.log(row.organization);
 
   });
-*/
+
   
   
 
-  slackUtils.postMessage({user_id : req.user.id, auth : authHeader, properties : properties});
+  //slackUtils.postMessage({user_id : req.user.id, auth : authHeader, properties : properties});
+  
   res.end();
 });
 
