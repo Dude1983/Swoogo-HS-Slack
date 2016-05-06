@@ -78,15 +78,15 @@ router.post('/lead', function(req, res){
   
   var authHeader, orgId, orgSecret, properties, row;
 
-  /*authHeader = new Buffer(req.headers.authorization.toString().split(' ')[1], 'base64').toString('ascii');
+  authHeader = new Buffer(req.headers.authorization.toString().split(' ')[1], 'base64').toString('ascii');
   orgId = authHeader.split(':')[0];
   orgSecret = authHeader.split(':')[1];
 
   properties = req.body.properties;
-*/
+
   
 
-  messageMetaData.where({user_id : req.user.id}).then(function(d){
+  messageMetaData.where({organization.username : orgId, organization.password : orgSecret}).then(function(d){
     row = d[0];
 
     console.log(row.organization);
