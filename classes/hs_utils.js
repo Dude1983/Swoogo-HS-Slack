@@ -159,12 +159,12 @@ function formatNewLeadPostBody (id, metaData, post){
     if(post['firstname'] && d === 'firstname'){
       message.text += `${post[d].value} `;
       if(post['lastname']){
-        message.text += `${post['lastname']}\n`;
+        message.text += `${post['lastname'].value}\n`;
       }
     }
     if(post[d]){
-      if(d !== 'firstname' || d !== 'lastname')
-        message.text += `d ${post[d].value} `;
+      if(d !== 'firstname' && d !== 'lastname')
+        message.text += `${d} ${post[d].value}\n`;
       }
   });
 
