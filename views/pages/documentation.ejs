@@ -1,0 +1,29 @@
+<%- include('../partials/header') -%>
+
+
+<%- include('../partials/nav') -%>
+
+
+	<% if(!user){ %>
+		<a id="login" href="/login">Login</a>
+	<% } else {  %>
+		<p id="logged_in_user"> You're logged in as <%= user.username %> </p>
+ 	<% } %>
+  <div class="row">
+    <h2>Documentation</h2>
+    <p>HubSlacker is an app for sending realtime lead notifications from HubSpot directly to your Slack team.</p>
+  </div>
+  <div class="row">
+    <h3>How to get set up</h3>
+    <p>If you do not already have an account with HubSlacker, navigate to the registration page and create a new account.</p>
+    <h4>Authorize your accounts</h4>
+    <ul class="how-to-list">
+    <li>After you have logged in to HubSlacker, navigate to the accounts page to authorize HubSpot and Slack.</li>
+    <li>Authorize HubSpot by entering your Portal ID, accessible from the top right hand corner of HubSpot,<img class="how-to-img" src="/img/HID.png">   into the modal that says 'Authorize HubSpot.' <img class="how-to-img" src="/img/authorize_hs.png">  You will be redirected to HubSpot and prompted to log in to your account authorizing HubSlacker to receive notifications as well as view your contact properties.<img class="how-to-img" src="/img/HS_Oauth.png"></li>
+    <li>Authorize Slack simply by clicking 'Authorize' and following the onscreen prompts.<img class="how-to-img" src="/img/Authorize_Slack.png"><img class="how-to-img" src="/img/Slack_Oauth.png"></li>
+    </ul>
+  </div>
+
+<%- include('../partials/footer') -%>
+
+

@@ -66,8 +66,6 @@ router.get('/meta', function(req, res){
 
 router.post('/update', function(req, res){
 
-  res.status(200);
-
   Database.upsert( messageMetaData, 
   { organization : 
     {
@@ -76,7 +74,14 @@ router.post('/update', function(req, res){
     }
   }, req.user.id );
 
-  res.end();
+  hsUtils.get_token(
+    req.user.id, 
+    hsUtils.createWorkflow, 
+    {
+      username : req.body.username,
+      password : req.body.password
+    });
+  res.status(200).end();
 });
 
 

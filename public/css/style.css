@@ -93,7 +93,9 @@ textarea {
  Author's custom styles
  ========================================================================== */
 
-
+.row p {
+  font-size: 18px;
+}
 .nav-row{
 	margin: 2.5rem 0;
 }
@@ -269,7 +271,22 @@ i.fa.fa-check {
     color: lightgreen;
 }
 
+/*
+*  Documentation.html
+*/
 
+.how-to-list{
+    width: 700px;
+    display: block;
+    margin: 0 auto;
+    font-size: 18px;
+}
+
+.how-to-img{
+  display: block;
+  margin: 10px auto;
+  width: 300px;
+}
 /* ==========================================================================
  Helper classes
  ========================================================================== */

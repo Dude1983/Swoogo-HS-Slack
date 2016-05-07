@@ -26,6 +26,7 @@ module.exports.get_token = get_token;
 module.exports.refresh = refresh;
 module.exports.getContactProperties = getContactProperties;
 module.exports.formatNewLeadPostBody = formatNewLeadPostBody;
+module.exports.createWorkflow = createWorkflow;
 
 
 //    - -   ENV VARIABLES   - - //
@@ -41,23 +42,20 @@ var TTL = process.env["TTL"];
 
 
 // gets cached refresh token
-function get_token (id, cb) {
+function get_token (id, cb, data) {
 
   OauthTokens.where("user_id", id).then(function(d){
 
-/*    var dateNow = new Date();
-    var refreshedTime = new Date(d[0].hs_access.refreshed);
-    var accessToken =  d[0].hs_access.access_token; */
     var refreshToken = d[0].hs_access.refresh_token;
 
-    refresh(refreshToken, id, OauthTokens, cb);
+    refresh(refreshToken, id, OauthTokens, cb, data);
   });  
 
 }
 
 
 // gets a new access token
-function refresh(refreshToken, id, OauthTokens, cb){
+function refresh(refreshToken, id, OauthTokens, cb, data){
 
   // post body
   var body =  querystring.stringify({
@@ -78,7 +76,7 @@ function refresh(refreshToken, id, OauthTokens, cb){
       var responseBody = JSON.parse(d);
 
       // execute callback
-      cb(responseBody.access_token, id);
+      cb(responseBody.access_token, id, data);
 
       // inserts new refresh token
       Database.upsert(OauthTokens,
@@ -172,4 +170,45 @@ function formatNewLeadPostBody (id, metaData, post){
   message.text += `see the record here:\n${post['profile-url']}`;
 
   slackUtils.getToken(id, slackUtils.postMessage, message);
+}
+
+function createWorkflow(token, id, data){
+  var options;
+console.log(token);
+  options = {
+    uri : 'https://api.hubapi.com/automation/v3/workflows?access_token=' + token,
+    method : 'POST',
+    headers : {
+      "Content-Type" : "application/json"
+    }
+  }
+  options.body = JSON.stringify({
+    "name": "HubSlacker",
+    "type": "DRIP_DELAY",
+    "enabled" : "true",
+    "actions": [
+      {
+        "type": "WEBHOOK",
+        "url": "https://hs-slack-leadnotify.herokuapp.com/api/hubspot/lead",
+        "method": "POST",
+        "authCreds": {
+          "user": data.username,
+          "password": data.password
+        }
+      }
+    ],
+    "segmentCriteria": [[
+      {
+          "filterFamily": "FormSubmission",
+          "withinTimeMode": "PAST",
+          "operator": "HAS_FILLED_OUT_FORM"
+      }]
+    ],
+    "reEnrollmentTriggerSets": [[{
+          "type": "FORM"
+        }]]
+  });
+  request(options, function(err, res, d){
+    if(err) throw err;
+  });
 }
