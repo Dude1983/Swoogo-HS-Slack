@@ -204,6 +204,7 @@ console.log(token);
           "operator": "HAS_FILLED_OUT_FORM"
       }]
     ],
+    "allowContactToTriggerMultipleTimes" : "true",
     "reEnrollmentTriggerSets": [[{
           "type": "FORM"
         }]]
