@@ -149,14 +149,22 @@ function formatContactProperties(d, id){
   Database.upsert(messageMetaData, { selected_properties : ['firstname', 'lastname', 'email', 'phone']}, id);
 }
 
-function formatNewLeadPostBody (id, metaData, lead){
+function formatNewLeadPostBody (id, metaData, post){
   var text, message;
+  
   message = {};
   message.channel = metaData.default_channel;
-  message.text = '';
+  message.text = 'You have a new lead!\n';
+
   metaData.selected_properties.forEach(function(d){
-    if(lead[d]){
-      message.text += d+' '+lead[d].value;
+    if(post['firstname'] && d === 'firstname'){
+      message.text += `${post[d].value} `;
+      if(post['lastname']){
+        message.text += `${post['lastname']} `;
+      }
+    }
+    if(post[d] && d !== 'firstname' || d !== 'lastname'){
+      message.text += d+' '+post[d].value+' ';
     }
   });
   slackUtils.getToken(id, slackUtils.postMessage, message);
