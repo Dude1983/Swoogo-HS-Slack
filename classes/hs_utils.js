@@ -168,7 +168,7 @@ function formatNewLeadPostBody (id, metaData, post){
       }
   });
 
-  message.text += `<a href="${}">see record</a>`;
+  message.text += `<a href="${post['profile-url']}">see record</a>`;
 
   slackUtils.getToken(id, slackUtils.postMessage, message);
 }
