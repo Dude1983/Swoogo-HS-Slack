@@ -93,6 +93,15 @@ textarea {
  Author's custom styles
  ========================================================================== */
 
+.hyperlink {
+  color: #1EAEDB; 
+}
+.hyperlink:hover {
+  color: #0FA0CE; 
+  text-decoration: underline;
+}
+
+
 .row p {
   font-size: 18px;
 }
@@ -275,8 +284,30 @@ i.fa.fa-check {
 *  Documentation.html
 */
 
+.doc.row{
+  max-width: 800px;
+}
+.doc.row h4{
+  margin-top: 50px;
+}
+.contents h4{
+  text-align: center;
+}
+.contents ul {
+  width: 50%;
+  margin: 0 auto 50px;
+}
+.contents ul ul {
+  width: 90%;
+  margin-bottom: 0;
+}
+.contents li {
+  font-size: 18px;
+  margin-left: 20px;
+  margin-bottom: 0;
+}
 .how-to-list{
-    width: 700px;
+    max-width: 700px;
     display: block;
     margin: 0 auto;
     font-size: 18px;
@@ -284,8 +315,14 @@ i.fa.fa-check {
 
 .how-to-img{
   display: block;
-  margin: 10px auto;
+  margin: 50px auto;
   width: 300px;
+}
+
+.img-lrg{
+  display: block;
+  margin: 50px auto;
+  width: 600px;
 }
 /* ==========================================================================
  Helper classes

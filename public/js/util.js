@@ -63,7 +63,7 @@
     });
   }
 
-    updateOrgInfo = function(org){
+  updateOrgInfo = function(org){
 
     // init spinner
     $('#org_id button').after('<i class="fa fa-spinner fa-pulse fa-2x fa-fw margin-bottom"></i>');

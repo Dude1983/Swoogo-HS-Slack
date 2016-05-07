@@ -103,33 +103,34 @@ router.post('/lead', function(req, res){
 // updates cached default properties
 router.post('/properties/default', function(req, res){
 
-  req.body.default_properties.forEach(function(d){
-      
-      name = `properties.${d.name}.default_selection`;
-      data = {};
-      data[name] = d.default_selection;
+  if(req.body.default_properties !== undefined){
+    req.body.default_properties.forEach(function(d){
+        
+        name = `properties.${d.name}.default_selection`;
+        data = {};
+        data[name] = d.default_selection;
 
-      if(d.default_selection === true || d.default_selection === 'true'){
-        messageMetaData.update({user_id : req.user.id},
-          {
-            $push : { selected_properties : d.name }
-          }, function(err){
-            if(err) console.log(err);
-          });
-      } else {
+        if(d.default_selection === true || d.default_selection === 'true'){
+          messageMetaData.update({user_id : req.user.id},
+            {
+              $push : { selected_properties : d.name }
+            }, function(err){
+              if(err) console.log(err);
+            });
+        } else {
 
-        messageMetaData.update({user_id : req.user.id},
-          {
-            $pull : { selected_properties : d.name }
-          }, function(err){
-            if(err)console.log(err);
-          });
-      }
-      
-      Database.upsert(hubspotMetaData, data, req.user.id);
+          messageMetaData.update({user_id : req.user.id},
+            {
+              $pull : { selected_properties : d.name }
+            }, function(err){
+              if(err)console.log(err);
+            });
+        }
+        
+        Database.upsert(hubspotMetaData, data, req.user.id);
 
-  });
-    
+    });
+    }
   res.status(200).end();
 });
 

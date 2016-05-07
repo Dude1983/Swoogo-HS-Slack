@@ -69,7 +69,7 @@ app.set('view engine', 'ejs');
 
 // parses request body
 app.use(helmet());
-app.use(bodyParser.json({limit: '50mb'}));  
+app.use(bodyParser.json({limit: '1mb'}));  
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 // session logger -> store in MongoDB
