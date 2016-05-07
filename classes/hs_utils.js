@@ -153,7 +153,8 @@ function formatNewLeadPostBody (id, metaData, post){
   var text, message;
   message = {};
   message.channel = metaData.default_channel;
-  message.text = 'You have a new lead!\n';
+  message.username = "HubSlacker";
+  message.text = '*You have a new lead!*\n';
 
   metaData.selected_properties.forEach(function(d){
     if(post['firstname'] && d === 'firstname'){
@@ -164,7 +165,7 @@ function formatNewLeadPostBody (id, metaData, post){
     }
     if(post[d]){
       if(d !== 'firstname' && d !== 'lastname')
-        message.text += `${d}: ${post[d].value}\n`;
+        message.text += `*${d}:* ${post[d].value}\n`;
       }
   });
 

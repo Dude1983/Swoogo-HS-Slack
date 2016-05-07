@@ -152,8 +152,6 @@ function postMessage(token, id, message){
 
   options.body = querystring.stringify(message);
 
-  console.log(options)
-
   request(options, function(err, res, d){
     if(err) throw err;
     console.log(d);
