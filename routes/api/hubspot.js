@@ -83,7 +83,7 @@ router.post('/lead', function(req, res){
   orgSecret = authHeader.split(':')[1];
 
   response = req.body.properties;
-  res['profile-url'] = req.body['profile-url'];
+  response['profile-url'] = req.body['profile-url'];
 
   messageMetaData.find({ 'organization.username' : orgId, 'organization.password' : orgSecret}, function(err, d){
     if(err) console.log(err);
