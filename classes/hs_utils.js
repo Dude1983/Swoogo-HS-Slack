@@ -164,7 +164,7 @@ function formatNewLeadPostBody (id, metaData, post){
       }
     }
     if(post[d] && d !== 'firstname' || d !== 'lastname'){
-      message.text += d+' '+post[d].value+' ';
+      message.text += `d ${post[d].value} `;
     }
   });
   slackUtils.getToken(id, slackUtils.postMessage, message);
