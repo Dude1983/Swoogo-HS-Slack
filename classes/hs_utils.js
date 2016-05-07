@@ -153,12 +153,20 @@ function formatNewLeadPostBody (id, metaData, post){
   var text, message;
   message = {};
   message.channel = metaData.default_channel;
-  message.text = '';
-  metaData.selected_properties.forEach(function(d){
-    if(post[d]){
+  message.text = 'You have a new lead!\n';
 
-      message.text += d+' '+post[d].value+' ';
+  metaData.selected_properties.forEach(function(d){
+    if(post['firstname'] && d === 'firstname'){
+      message.text += `${post[d].value} `;
+      if(post['lastname']){
+        message.text += `${post['lastname']}\n`;
+      }
     }
+    if(post[d]){
+      if(d !== 'firstname' || d !== 'lastname')
+        message.text += `d ${post[d].value} `;
+      }
   });
+
   slackUtils.getToken(id, slackUtils.postMessage, message);
 }
