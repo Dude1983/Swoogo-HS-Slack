@@ -164,9 +164,11 @@ function formatNewLeadPostBody (id, metaData, post){
     }
     if(post[d]){
       if(d !== 'firstname' && d !== 'lastname')
-        message.text += `${d} ${post[d].value}\n`;
+        message.text += `${d}: ${post[d].value}\n`;
       }
   });
+
+  message.text += `<a href="${}">see record</a>`;
 
   slackUtils.getToken(id, slackUtils.postMessage, message);
 }
