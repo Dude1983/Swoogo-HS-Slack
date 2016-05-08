@@ -75,8 +75,6 @@ router.get('/channels', function(req, res){
 // Sets the default channel
 router.post('/channels/set', function(req, res){
 
-  console.log(req.body.default_channel);
-
   // log slack metadata
   Database.upsert( slackMetaData, { default_channel: req.body.default_channel }, req.user.id );
 

@@ -22,21 +22,30 @@ router.get('/', function(req, res){
   if(req.user){
     res.redirect('/');
   } else {
-    res.render('pages/register', {title : "Register | LeadNotify"});
+    res.render('pages/register', {title : "Register | LeadNotify", error : null});
   }
   
 });
 
 router.post('/', function(req, res) {
-  User.register(new User({username: req.body.username}), req.body.password, function(err, data) {
-    if (err) {
-      res.render('pages/register', { title: "Register | LeadNotify"});
-    }
+  var status, error;
 
-    passport.authenticate('local')(req, res, function () {
-      res.redirect('/');
+  if(req.body.password !== req.body.confirm_password){
+    res.status(400)
+      .render('pages/register', {title : "Register | LeadNotify", error : 'Passwords do no match'});
+  } else {
+    User.register(new User({username: req.body.username}), req.body.password, function(err, data) {
+      if (err) {
+        res.status(400)
+          .render('pages/register', {title : "Register | LeadNotify", error : err});
+      } else {
+        passport.authenticate('local')(req, res, function () {
+          res.status(200);
+          res.redirect('/');
+        });
+      }
     });
-  });
+  }
 });
 
 module.exports = router;

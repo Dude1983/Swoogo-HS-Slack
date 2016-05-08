@@ -286,6 +286,7 @@ i.fa.fa-check {
 
 .doc.row{
   max-width: 800px;
+  margin: 0 auto;
 }
 .doc.row h4{
   margin-top: 50px;
@@ -323,6 +324,12 @@ i.fa.fa-check {
   display: block;
   margin: 50px auto;
   width: 600px;
+}
+
+/*  LOGOUT  */
+
+#goodbye{
+  margin-left: 10px; 
 }
 /* ==========================================================================
  Helper classes

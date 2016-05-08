@@ -138,6 +138,8 @@ router.post('/', function(req, res){
           state : null
         }
       }, req.user.id);
+    res.status(200);
+    res.redirect('/account'); 
   }
 
   

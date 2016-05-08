@@ -154,6 +154,5 @@ function postMessage(token, id, message){
 
   request(options, function(err, res, d){
     if(err) throw err;
-    console.log(d);
   });
 }

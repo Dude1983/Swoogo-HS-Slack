@@ -174,7 +174,6 @@ function formatNewLeadPostBody (id, metaData, post){
 
 function createWorkflow(token, id, data){
   var options;
-console.log(token);
   options = {
     uri : 'https://api.hubapi.com/automation/v3/workflows?access_token=' + token,
     method : 'POST',
