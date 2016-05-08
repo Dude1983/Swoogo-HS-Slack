@@ -7,12 +7,9 @@
 Receive lead notifications from HubSpot form submissions direct to a Slack Channel or a designated user.  Customize the information you receive in the notifications using the app.
 
 
-
 ##Server
 
 Heroku
-
-used node.js sample extensively to get setup - https://github.com/heroku/node-js-getting-started
 
 ##DB
 
@@ -54,7 +51,6 @@ Things I had to learn
 
 setting up an environment -> http://man7.org/linux/man-pages/man7/environ.7.html
 CSRF protection
-how to implement HTTPS -> startSSL
 storing cookies in cache for user session
 MongoDb
 Oauth
@@ -84,21 +80,9 @@ Session info -
  http://cwbuecheler.com/web/tutorials/2013/node-express-mongo/
 
 
-
- PROMISES
-
- http://www.html5rocks.com/en/tutorials/es6/promises/
-
-
- CREATING CUSTOM EVENTS
-
- http://www.sitepoint.com/javascript-custom-events/
-
-
  SECURITY 
 
  https://www.npmjs.com/package/helmet
-
 
  JS Module Patterns
 
@@ -120,9 +104,11 @@ Session info -
 
 TO-DO
 
-
-add validation to registration page
-redirect to account page after registration
-add default selected properties
+change password/username
+set up helmet/csurf
 check all auth
 hash orgSecret in messageMetaData
+
+WISHLIST
+
+send to slack user based on HS owner

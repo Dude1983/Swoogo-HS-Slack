@@ -7,7 +7,7 @@
 	util.initListeners = function(){
 
     // inserts tooltip for 
-    tooltipHTML = '<span id="org_id_tooltip" class="tooltip">LeadNotify uses this information to identify your Organization when sending incoming notifications to Slack. This is not/should not be your HubSpot or your Slack credentials.</span>'
+    tooltipHTML = '<span id="org_id_tooltip" class="tooltip">HubSlacker uses this information to identify your Organization when sending incoming notifications to Slack. This is not/should not be your HubSpot, Slack, or HubSlacker credentials.</span>'
     $('#org_id_h4').after(tooltipHTML);
 
     // shows/hides tooltip

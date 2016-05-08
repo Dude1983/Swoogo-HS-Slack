@@ -106,9 +106,16 @@ textarea {
   font-size: 18px;
 }
 .nav-row{
-	margin: 2.5rem 0;
+	margin: 4.5rem 0;
 }
-
+.nav-row h1{
+  display: inline-block;
+}
+.logo {
+    max-width: 120px;
+    display: inline-block;
+    margin-top: -43px;
+}
 ul.nav{
   height: 60px;
   padding-top: 15px;
@@ -119,7 +126,12 @@ ul.nav{
 }
 
 .nav-link {
-  border: none;
+  padding: 0 15px;
+  color: #555;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .1rem;
+  text-transform: uppercase;
 }
 
 .form-wrapper {
@@ -286,7 +298,7 @@ i.fa.fa-check {
 
 .doc.row{
   max-width: 800px;
-  margin: 0 auto;
+  margin: 0 auto 50px;
 }
 .doc.row h4{
   margin-top: 50px;
@@ -326,11 +338,23 @@ i.fa.fa-check {
   width: 600px;
 }
 
+.to-top-arrw {
+    position: absolute;
+    bottom: 30px;
+    right: 0;
+}
+
+.to-top-arrw:hover{
+  cursor: pointer;
+}
+
 /*  LOGOUT  */
 
 #goodbye{
   margin-left: 10px; 
 }
+
+
 /* ==========================================================================
  Helper classes
  ========================================================================== */
