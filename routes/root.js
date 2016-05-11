@@ -47,7 +47,7 @@ router.get('/', function(req, res){
   } else {
     // if first login insert new Oauth row
   	Database.newOauthRow(req.user.id);
-  	res.render('pages/index', {	title : "HubSpot Lead Notifications for Slack | LeadNotify", user : req.user });
+  	res.render('pages/index', {	title : "HubSpot Lead Notifications for Slack | HubSlacker", user : req.user });
   }
 });
 

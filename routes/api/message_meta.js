@@ -1,5 +1,5 @@
 /*
- *    - -       API FOR SLACK  - -     *//*
+ *    - -       API FOR UPDATING MESSAGE METADATA  - -     *//*
  *           
  */
 
@@ -47,18 +47,17 @@ router.use(function(req, res, next){
 /*
  *    - -   GET REQUESTS     - -     *//*
  */
-router.get('/', function(req, res){
-  res.end();
-})
+
 
 router.get('/meta', function(req, res){
   
+  // sends organization ID to client
   messageMetaData.where({"user_id" : req.user.id}).then(function(d){
     res.status(200).send(d[0].organization.username);
     res.end();
-  })    
+  });   
   
-})
+});
 
 /*
  *    - -   POST REQUESTS     - -     *//*
@@ -66,6 +65,7 @@ router.get('/meta', function(req, res){
 
 router.post('/update', function(req, res){
 
+  // updates message metadata collection in MongoDb
   Database.upsert( messageMetaData, 
   { organization : 
     {
@@ -74,8 +74,11 @@ router.post('/update', function(req, res){
     }
   }, req.user.id );
 
+  // gets HubSpot access token
   hsUtils.get_token(
     req.user.id, 
+    
+    // sends callback getToken method to create workdlow
     hsUtils.createWorkflow, 
     {
       username : req.body.username,

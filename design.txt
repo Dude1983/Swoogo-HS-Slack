@@ -1,0 +1,12 @@
+HubSlacker - CS50
+
+HubSlacker is a full stack web app, designed to send real time lead notifications from HubSpot when a new lead submits a form directly to Slack.  The server is hosted on Heroku a cloud as a service application that allows you to deploy applications to the cloud (https://dashboard.heroku.com/). The database is hosted on MongoDb a database as a service application, which uses JSON instead of rows like a SQL table (https://mlab.com/).  The server is built in Node.js with a node module called express: http://expressjs.com/ using a typical MVC (Model-View-Controller) format.
+
+The first step in the process was building out the framework/server to host the application.  Secondly I needed to create a login/registration flow which I did using passport a node module, and log cookies and user sessions which I did using cookie parser and express-sessions.  The user credentials and session info needed to be stored in a Database so I connected MongoDb and used Mongoose a JS framework for connecting to MongoDb.
+
+After the login flow was complete and I was storing user information in the Database I set up the Oauth flow for both HubSpot and Slack so that I could make API calls to both applications. Once the authorization was complete I built out classes for calling various API endpoints.  The methods included in the classes allowed me to refresh access tokens to make further API calls, for instance to get a list of Slack channels, and to use the HubSpot Contacts API to pull a list of contact properties.  I also used the HubSpot API to create a workflow which woiuld trigger when a new form submission was created and send a webhook to the HubSlacker server.
+
+Sensitive client information was all handled in the server, and any sensitive information that didn't need to be sent back in a response to the client was hidden in the server as well.  I built out API endpoints for handling functions such as receiving webhooks with contact data from HubSpot, updating the database with default properties a user selected, or the default Slack channel where a lead notification should be posted.
+
+
+Clientside javascript was responsible for sending Ajax requests to the HubSlacker server which in turn were processed and used for udating the database.

@@ -135,7 +135,6 @@ app.use('/api/slack', api_slack);
 app.use('/api/hubspot', api_hubspot);
 app.use('/api/message', message_meta);
 
-//    - -   LISTEN    - -     //
 
 //    - -   ERROR HANDLING    - -     //
 
@@ -144,6 +143,8 @@ app.use(function(err, req, res, next) {
   res.status(500).send('Something broke!');
   next(err);
 });
+
+// listens for requests
 
 app.listen(app.get('port'), function() {
   console.log('app is running on port', app.get('port'));

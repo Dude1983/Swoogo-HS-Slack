@@ -10,8 +10,9 @@ router.use(function(req, res, next){
 });
 
 router.get('/', function(req, res){
+  // logs user out and renders logout page
   req.logout();
-	res.render('pages/logout', {	title : "Logout | LeadNotify" });
+	res.render('pages/logout', {	title : "Logout | HubSlacker" });
 });
 
 module.exports = router;

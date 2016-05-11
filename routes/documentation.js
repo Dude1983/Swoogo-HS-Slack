@@ -1,5 +1,5 @@
 /*
- *    - -       INDEX PAGE HANDLING  - -     *//*
+ *    - -       DOCUMENTATION PAGE HANDLING  - -     *//*
  *           
  */
 

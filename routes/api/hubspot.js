@@ -58,6 +58,8 @@ router.get('/properties', function(req, res){
   if(!req.user){
     res.redirect('/login');
   } else {
+
+    // searches hubspotMetaData collection for logged in user
     hubspotMetaData.where({'user_id' : req.user.id}).then(function(d){
       res.status(200).send(
         {
@@ -74,24 +76,33 @@ router.get('/properties', function(req, res){
  *    - -   POST REQUESTS     - -     *//*
  */
 
+
+// receives webhook from HubSpot with new lead notification
 router.post('/lead', function(req, res){
   
   var authHeader, orgId, orgSecret, properties, row;
 
+  // parses auth header in request
   authHeader = new Buffer(req.headers.authorization.toString().split(' ')[1], 'base64').toString('ascii');
   orgId = authHeader.split(':')[0];
   orgSecret = authHeader.split(':')[1];
 
+
+  // collects contact record from request body and the URL to the contact record in the HubSpot App
   response = req.body.properties;
   response['profile-url'] = req.body['profile-url'];
 
-  console.log(orgId, orgSecret);
 
+  // searches database for org ID and secret
   messageMetaData.find({ 'organization.username' : orgId, 'organization.password' : orgSecret}, function(err, d){
     if(err) console.log(err);
+    
+    // if org ID and secret are not found send error
     if(!d.length){
       res.status(401).send("Unauthorized").end();
     } else {
+
+      // else send the req.body to hsUtils class to be parsed by the formatNewLeadPostBody method
       org = d[0].organization;
       hsUtils.formatNewLeadPostBody(d[0].user_id, d[0], response);
       res.status(200).end();
@@ -103,13 +114,18 @@ router.post('/lead', function(req, res){
 // updates cached default properties
 router.post('/properties/default', function(req, res){
 
+
+  // if there are changes to the default properties list
   if(req.body.default_properties !== undefined){
+    
+    // cycle through each of the properties and upsert into Database
     req.body.default_properties.forEach(function(d){
         
         name = `properties.${d.name}.default_selection`;
         data = {};
         data[name] = d.default_selection;
 
+        // adds property as default selection to messageMetadata collection in mongodb
         if(d.default_selection === true || d.default_selection === 'true'){
           messageMetaData.update({user_id : req.user.id},
             {
@@ -119,6 +135,7 @@ router.post('/properties/default', function(req, res){
             });
         } else {
 
+          // removes property as default selection to messageMetadata collection in mongodb
           messageMetaData.update({user_id : req.user.id},
             {
               $pull : { selected_properties : d.name }
@@ -127,6 +144,7 @@ router.post('/properties/default', function(req, res){
             });
         }
         
+        // updates the hubspotMetaData collection in mongodb
         Database.upsert(hubspotMetaData, data, req.user.id);
 
     });

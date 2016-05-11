@@ -20,6 +20,7 @@ router.get('/', function(req, res){
   
 });
 
+// logs user in
 router.post('/', passport.authenticate('local'), function(req, res) {
   res.redirect('/');
 });

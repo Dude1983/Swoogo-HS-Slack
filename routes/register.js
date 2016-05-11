@@ -8,9 +8,6 @@ var Database = require('../database/db');
 var Database = Database();
 var router = express.Router();
 
-
-// TO-DO: if user is logged in or username is known -> redirect to index or login
-
 router.use(function(req, res, next){
   next();
 });
@@ -22,7 +19,7 @@ router.get('/', function(req, res){
   if(req.user){
     res.redirect('/');
   } else {
-    res.render('pages/register', {title : "Register | LeadNotify", error : null});
+    res.render('pages/register', {title : "Register | HubSlacker", error : null});
   }
   
 });
@@ -30,15 +27,22 @@ router.get('/', function(req, res){
 router.post('/', function(req, res) {
   var status, error;
 
+  // checks to make sure password matches 
   if(req.body.password !== req.body.confirm_password){
     res.status(400)
-      .render('pages/register', {title : "Register | LeadNotify", error : 'Passwords do no match'});
+      .render('pages/register', {title : "Register | HubSlacker", error : 'Passwords do no match'});
   } else {
+
+    // if match attempt to create a new user
     User.register(new User({username: req.body.username}), req.body.password, function(err, data) {
+      
       if (err) {
+        // if theres and error creating a user send it to the page and display for the user
         res.status(400)
           .render('pages/register', {title : "Register | LeadNotify", error : err});
       } else {
+
+        // authenticates the registration and logs the user in then redirects to the settings page
         passport.authenticate('local')(req, res, function () {
           res.status(200);
           res.redirect('/');

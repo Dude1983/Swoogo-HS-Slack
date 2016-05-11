@@ -92,6 +92,7 @@ router.get('/', function(req, res){
         }
       }, req.user.id);
 
+    // collects contact properties when user authorizes HubSpot
     hsUtils.getContactProperties(req.query.access_token, req.user.id);
 
     res.redirect('/account');
