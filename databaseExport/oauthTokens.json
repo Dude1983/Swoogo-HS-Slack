@@ -1,0 +1,16 @@
+{
+    "_id": {
+        "$oid": "572fe6d7e7c1b299c852e009"
+    },
+    "user_id": "572fe6d5ee9824030080bd79",
+    "hs_access": {
+        "refresh_token": "648ecfee-89ce-4e75-b4cc-89463fe85b41"
+    },
+    "slack_access": {
+        "access_token": "xoxp-20638907906-20638167329-37361940757-3cbb889c12",
+        "scope": "identify,channels:read,chat:write:bot",
+        "user_id": "572fe6d5ee9824030080bd79",
+        "team_name": "3.14GLET b3@r",
+        "team_id": "T0LJSSPSN"
+    }
+}
