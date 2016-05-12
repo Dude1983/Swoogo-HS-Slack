@@ -2,3 +2,4 @@
 .env
 npm-debug.log
 hs_contact_properties.json
+databaseExport
