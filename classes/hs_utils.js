@@ -27,6 +27,7 @@ module.exports.refresh = refresh;
 module.exports.getContactProperties = getContactProperties;
 module.exports.formatNewLeadPostBody = formatNewLeadPostBody;
 module.exports.createWorkflow = createWorkflow;
+module.exports.getOwners = getOwners;
 
 
 //    - -   ENV VARIABLES   - - //
@@ -180,7 +181,7 @@ function createWorkflow(token, id, data){
     headers : {
       "Content-Type" : "application/json"
     }
-  }
+  };
   options.body = JSON.stringify({
     "name": "HubSlacker",
     "type": "DRIP_DELAY",
@@ -212,3 +213,26 @@ function createWorkflow(token, id, data){
     if(err) throw err;
   });
 }
+
+function getOwners (accessToken, id){
+  var options = {
+    uri : 'http://api.hubapi.com/owners/v2/owners?access_token=' + accessToken,
+    method : 'GET'
+  };
+
+  request(options, function(err, res, d){
+    if(err) throw err;
+    var owners = {};
+    JSON.parse(d).forEach(function(d){
+      if(d.type === 'PERSON') {
+        owners[d.ownerId] = {};
+        owners[d.ownerId].email = d.email;
+        owners[d.ownerId].ownerId = d.ownerId;
+        owners[d.ownerId].firstName = d.firstName;
+        owners[d.ownerId].lastName = d.lastName;
+      }
+    });
+    Database.upsert(hubspotMetaData, { owners : owners }, id);
+  });
+}
+

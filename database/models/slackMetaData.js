@@ -6,7 +6,8 @@ var mongoose = require('mongoose'),
 var slackMetaData = new Schema({
 	user_id : String,
 	default_channel : String,
-	channels : Array
+	channels : Array,
+	users : Object
 });	
 
 

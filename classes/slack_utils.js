@@ -93,7 +93,7 @@ function Oauth (row, req){
 
         // get channels list from Slack and upsert into SlackMetaData model
         listChannels(body.access_token, row[0].user_id);
-        getUsers(body.access_token, null, null);
+        getUsers(body.access_token, row[0].user_id, null);
       }
     });
 
@@ -167,23 +167,22 @@ function getUsers(token, id, data){
 
   request(options, function(err, res, d){
     if (err) throw err;
-    parseUsers(JSON.parse(d).members);
+    parseUsers(JSON.parse(d).members, id);
   });
 
 }
 
-function parseUsers(members){
+function parseUsers(members, id){
   users = {};
   members.forEach(function(d){
     if(!d.is_bot && d.profile.email !== null){
-      users[d.name] = {};
-      users[d.name].name = d.name;
-      users[d.name].realname = d.realname;
-      users[d.name].team_id = d.team_id;
-      users[d.name].id = d.id;
-      users[d.name].email = d.profile.email;
+      users[d.id] = {};
+      users[d.id].name = d.name;
+      users[d.id].realname = d.realname;
+      users[d.id].team_id = d.team_id;
+      users[d.id].id = d.id;
+      users[d.id].email = d.profile.email;
     }
   });
-
-  console.log(users);
+  Database.upsert(slackMetaData, { users : users }, id);
 }
